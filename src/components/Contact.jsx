@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Contact = () => {
+  const [formStatus, setFormStatus] = useState('');
   const contactInfo = {
     name: "Ahmed Ashraf",
     email: "ahmed.datascince@gmail.com",
     phone: "+20 1062798081",
     linkedin: "https://www.linkedin.com/in/ahmed-datascince/",
-    github: "https://github.com/EngAhmedDevloper"
+    github: "https://github.com/Ahmed-DS-ML"
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormStatus('sending');
   };
 
   return (
@@ -27,6 +33,72 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-primary-600 mb-2">{contactInfo.name}</h3>
                 <p className="text-secondary-600">Data Scientist & ML Engineer</p>
               </div>
+
+              {/* Contact Form */}
+              <form
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                className="space-y-6 mb-8"
+                onSubmit={handleSubmit}
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <div hidden>
+                  <input name="bot-field" />
+                </div>
+
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-secondary-600">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    required
+                    className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-secondary-600">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    required
+                    className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-secondary-600">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    id="message"
+                    rows={4}
+                    required
+                    className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={formStatus === 'sending'}
+                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
+                >
+                  {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                </button>
+
+                {formStatus === 'success' && (
+                  <p className="text-green-600 text-center">Thank you for your message! I'll get back to you soon.</p>
+                )}
+              </form>
               
               <div className="space-y-6">
                 {/* Email */}
