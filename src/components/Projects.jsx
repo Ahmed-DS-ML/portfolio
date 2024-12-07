@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo, useEffect, lazy, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaGithub, FaExternalLinkAlt, FaLaptopCode, FaRobot, FaBrain, FaChartBar, FaComments } from 'react-icons/fa';
 
@@ -20,12 +20,80 @@ const CATEGORY_ICONS = {
   [CATEGORIES.NLP]: FaComments
 };
 
+// Loading placeholder
+const LoadingPlaceholder = () => (
+  <div className="w-full h-64 bg-gray-200 rounded-lg animate-pulse"></div>
+);
+
+// Project Card Component
+const ProjectCard = ({ project, isHovered, onHover }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = project.image;
+    img.onload = () => setImageLoaded(true);
+  }, [project.image]);
+
+  return (
+    <motion.div
+      className="relative rounded-lg overflow-hidden shadow-lg bg-white"
+      whileHover={{ scale: 1.02 }}
+      onHoverStart={() => onHover(project.id)}
+      onHoverEnd={() => onHover(null)}
+    >
+      <div className="relative h-48 overflow-hidden">
+        {!imageLoaded && <LoadingPlaceholder />}
+        <img
+          src={project.image}
+          alt={project.title}
+          className={`w-full h-full object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          loading="lazy"
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+        <p className="text-gray-600 mb-4">{project.description}</p>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.technologies.map((tech, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 bg-primary-100 text-primary-600 rounded-full text-sm"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+        <div className="flex justify-between items-center">
+          {project.githubLink && (
+            <a
+              href={project.githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-primary-600 transition-colors"
+            >
+              <FaGithub className="w-6 h-6" />
+            </a>
+          )}
+          <Link
+            to={`/project/${project.id}`}
+            className="flex items-center text-primary-600 hover:text-primary-700"
+          >
+            View Details <FaExternalLinkAlt className="ml-2" />
+          </Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const Projects = () => {
   const [hoveredId, setHoveredId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [visibleProjects, setVisibleProjects] = useState(6);
 
   // Project data organized by categories
   const projectsData = useMemo(() => ({
-    // Automation & Industrial Projects
     [CATEGORIES.AUTOMATION]: [
       {
         id: 1,
@@ -62,7 +130,6 @@ const Projects = () => {
       },
     ],
 
-    // Machine Learning & AI Projects
     [CATEGORIES.ML_AI]: [
       {
         id: 5,
@@ -84,7 +151,6 @@ const Projects = () => {
       },
     ],
 
-    // Natural Language Processing Projects
     [CATEGORIES.NLP]: [
       {
         id: 7,
@@ -106,7 +172,6 @@ const Projects = () => {
       },
     ],
 
-    // Data Science & Analytics Projects
     [CATEGORIES.DATA_SCIENCE]: [
       {
         id: 9,
@@ -146,7 +211,6 @@ const Projects = () => {
       },
     ],
 
-    // Business Applications Projects
     [CATEGORIES.BUSINESS]: [
       {
         id: 13,
@@ -169,145 +233,83 @@ const Projects = () => {
     ],
   }), []);
 
+  const filteredProjects = useMemo(() => {
+    const allProjects = Object.values(projectsData).flat();
+    return selectedCategory
+      ? allProjects.filter(project => project.category === selectedCategory)
+      : allProjects;
+  }, [projectsData, selectedCategory]);
+
+  const loadMoreProjects = () => {
+    setVisibleProjects(prev => Math.min(prev + 6, filteredProjects.length));
+  };
+
   return (
-    <section id="projects" className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+    <section id="projects" className="py-20 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="space-y-12"
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl font-bold text-center mb-12"
         >
-          {/* Header Section */}
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8"
+          My Projects
+        </motion.h2>
+
+        {/* Category Filter */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className={`px-4 py-2 rounded-full ${!selectedCategory ? 'bg-primary-600 text-white' : 'bg-gray-200'}`}
+          >
+            All
+          </button>
+          {Object.entries(CATEGORIES).map(([key, value]) => (
+            <button
+              key={key}
+              onClick={() => setSelectedCategory(value)}
+              className={`px-4 py-2 rounded-full flex items-center ${selectedCategory === value ? 'bg-primary-600 text-white' : 'bg-gray-200'}`}
             >
-              <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 mb-6">
-                Featured Projects
-              </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Innovative Solutions Across Multiple Domains
-              </p>
-            </motion.div>
-          </div>
-          
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 gap-16">
-            {Object.entries(projectsData).map(([category, projects], categoryIndex) => (
+              {React.createElement(CATEGORY_ICONS[value], { className: 'mr-2' })}
+              {value}
+            </button>
+          ))}
+        </div>
+
+        {/* Projects Grid */}
+        <AnimatePresence>
+          <motion.div
+            layout
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {filteredProjects.slice(0, visibleProjects).map(project => (
               <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-                viewport={{ once: true }}
-                className="space-y-8"
+                key={project.id}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
               >
-                <div className="flex items-center space-x-4">
-                  {CATEGORY_ICONS[category] && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: "spring", stiffness: 200, delay: categoryIndex * 0.1 }}
-                      className="text-blue-500 text-2xl"
-                    >
-                      {React.createElement(CATEGORY_ICONS[category])}
-                    </motion.div>
-                  )}
-                  <h3 className="text-3xl font-bold text-white">{category}</h3>
-                  <div className="flex-1 h-px bg-gradient-to-r from-blue-500/50 to-transparent"></div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {projects.map((project, index) => (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="group relative bg-gray-800/50 backdrop-blur-sm rounded-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 border border-gray-700/50 hover:border-blue-500/50 shadow-lg hover:shadow-blue-500/10"
-                    >
-                      {/* Project Image with Overlay */}
-                      <div className="relative h-56 overflow-hidden">
-                        <motion.img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover"
-                          initial={{ scale: 1 }}
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.4 }}
-                          onError={(e) => {
-                            e.target.src = '/images/placeholder.jpg';
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                      </div>
-
-                      {/* Project Content */}
-                      <div className="relative p-6">
-                        <h4 className="text-xl font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300">
-                          {project.title}
-                        </h4>
-                        <p className="text-gray-300 text-sm mb-4 line-clamp-3">
-                          {project.description}
-                        </p>
-
-                        {/* Technologies */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {project.technologies.map((tech, techIndex) => (
-                            <motion.span
-                              key={techIndex}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ delay: index * 0.1 + techIndex * 0.05 }}
-                              className="px-3 py-1 text-xs font-medium bg-blue-500/10 text-blue-400 rounded-full border border-blue-500/20 hover:bg-blue-500/20 transition-colors duration-200"
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-700/50">
-                          {project.githubLink && (
-                            <motion.a
-                              href={project.githubLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20"
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              <FaGithub className="text-lg" />
-                              <span>View Code</span>
-                            </motion.a>
-                          )}
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <Link
-                              to={`/project/${project.id}`}
-                              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors duration-300"
-                            >
-                              <span>View Details</span>
-                              <FaExternalLinkAlt className="text-sm" />
-                            </Link>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                <ProjectCard
+                  project={project}
+                  isHovered={hoveredId === project.id}
+                  onHover={setHoveredId}
+                />
               </motion.div>
             ))}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Load More Button */}
+        {visibleProjects < filteredProjects.length && (
+          <div className="text-center mt-12">
+            <button
+              onClick={loadMoreProjects}
+              className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors"
+            >
+              Load More Projects
+            </button>
           </div>
-        </motion.div>
+        )}
       </div>
     </section>
   );
