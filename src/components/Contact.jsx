@@ -3,6 +3,12 @@ import { motion } from 'framer-motion';
 
 const Contact = () => {
   const [formStatus, setFormStatus] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
   const contactInfo = {
     name: "Ahmed Ashraf",
     email: "ahmed.datascince@gmail.com",
@@ -11,9 +17,40 @@ const Contact = () => {
     github: "https://github.com/Ahmed-DS-ML"
   };
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('sending');
+
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'contact',
+          ...formData
+        }).toString()
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus(''), 5000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus(''), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus(''), 5000);
+    }
   };
 
   return (
@@ -56,6 +93,8 @@ const Contact = () => {
                     type="text"
                     name="name"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                     className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   />
@@ -69,6 +108,8 @@ const Contact = () => {
                     type="email"
                     name="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                     className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   />
@@ -82,6 +123,8 @@ const Contact = () => {
                     name="message"
                     id="message"
                     rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
                     required
                     className="mt-1 block w-full rounded-md border-secondary-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
                   />
@@ -97,6 +140,9 @@ const Contact = () => {
 
                 {formStatus === 'success' && (
                   <p className="text-green-600 text-center">Thank you for your message! I'll get back to you soon.</p>
+                )}
+                {formStatus === 'error' && (
+                  <p className="text-red-600 text-center">There was an error sending your message. Please try again later.</p>
                 )}
               </form>
               
