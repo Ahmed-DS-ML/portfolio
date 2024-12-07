@@ -2,11 +2,23 @@ const CACHE_NAME = 'portfolio-cache-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/src/main.jsx',
-  '/src/App.jsx',
   '/manifest.json',
   '/favicon.png',
-  // Add other static assets here
+  '/assets/index.css',
+  '/assets/index.js',
+  '/images/factory-automation.jpg',
+  '/images/erp-integration.jpg',
+  '/images/cbm-system.jpg',
+  '/images/nlp-pipeline.jpg',
+  '/images/sentiment-analysis.jpg',
+  '/images/recommendation-engine.jpg',
+  '/images/image-classification.jpg',
+  '/images/anomaly-detection.jpg',
+  '/images/time-series.jpg',
+  '/images/bike-sharing.jpg',
+  '/images/customer-segmentation.jpg',
+  '/images/quality.jpg',
+  '/images/stock-forecast.jpg'
 ];
 
 // Install event - cache static assets
@@ -14,52 +26,62 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    })
+    Promise.all([
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter((name) => name !== CACHE_NAME)
+            .map((name) => caches.delete(name))
+        );
+      }),
+      self.clients.claim()
+    ])
   );
 });
 
-// Fetch event - serve from cache, falling back to network
+// Fetch event - network first, falling back to cache
 self.addEventListener('fetch', (event) => {
+  // Skip cross-origin requests
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then((response) => {
-        // Return cached response if found
-        if (response) {
-          return response;
-        }
-
-        // Clone the request because it can only be used once
-        const fetchRequest = event.request.clone();
-
-        // Make network request and cache the response
-        return fetch(fetchRequest).then((response) => {
-          // Check if response is valid
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response because it can only be used once
-          const responseToCache = response.clone();
-
+        // If we got a valid response, clone it and update the cache
+        if (response && response.status === 200) {
+          const responseClone = response.clone();
           caches.open(CACHE_NAME)
             .then((cache) => {
-              cache.put(event.request, responseToCache);
+              cache.put(event.request, responseClone);
             });
-
-          return response;
-        });
+        }
+        return response;
+      })
+      .catch(() => {
+        // If network request fails, try to get it from cache
+        return caches.match(event.request)
+          .then((response) => {
+            if (response) {
+              return response;
+            }
+            // If it's a navigation request, return the offline page
+            if (event.request.mode === 'navigate') {
+              return caches.match('/');
+            }
+            return new Response('Network error happened', {
+              status: 408,
+              headers: { 'Content-Type': 'text/plain' },
+            });
+          });
       })
   );
 });

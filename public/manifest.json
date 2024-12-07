@@ -4,13 +4,31 @@
   "description": "Data Scientist & ML Engineer Portfolio showcasing projects and skills",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#6366f1",
+  "categories": ["portfolio", "technology", "data science"],
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/portfolio-screenshot.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Portfolio Homepage"
     }
   ]
 }
