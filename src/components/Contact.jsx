@@ -25,18 +25,24 @@ const Contact = () => {
     }));
   };
 
+  const encode = (data) => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('sending');
 
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'contact',
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": "contact",
           ...formData
-        }).toString()
+        })
       });
 
       if (response.ok) {
@@ -44,10 +50,10 @@ const Contact = () => {
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setFormStatus(''), 5000);
       } else {
-        setFormStatus('error');
-        setTimeout(() => setFormStatus(''), 5000);
+        throw new Error('Form submission failed');
       }
     } catch (error) {
+      console.error('Form submission error:', error);
       setFormStatus('error');
       setTimeout(() => setFormStatus(''), 5000);
     }
@@ -76,9 +82,9 @@ const Contact = () => {
                 name="contact"
                 method="POST"
                 data-netlify="true"
-                netlify-honeypot="bot-field"
-                className="space-y-6 mb-8"
+                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
+                className="space-y-6 mb-8"
               >
                 <input type="hidden" name="form-name" value="contact" />
                 <div hidden>
