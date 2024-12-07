@@ -23,6 +23,25 @@ const Navbar = () => {
     { name: 'Contact', path: '/#contact' },
   ];
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Height of your fixed navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleResumeClick = () => {
+    window.open('/resume.pdf', '_blank');
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -42,24 +61,22 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4">
             {navLinks.map((link) => (
-              <Link
+              <button
                 key={link.name}
-                to={link.path}
+                onClick={() => scrollToSection(link.path.replace('#', ''))}
                 className={`nav-link ${
                   location.pathname + location.hash === link.path ? 'active' : ''
                 }`}
               >
                 {link.name}
-              </Link>
+              </button>
             ))}
-            <a
-              href="/resume.pdf"
+            <button
+              onClick={handleResumeClick}
               className="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Resume
-            </a>
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -106,23 +123,21 @@ const Navbar = () => {
       >
         <div className="px-2 pt-2 pb-3 space-y-1">
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.name}
-              to={link.path}
+              onClick={() => scrollToSection(link.path.replace('#', ''))}
               className="block px-3 py-2 rounded-md text-base font-medium text-secondary-600 hover:text-primary-600 hover:bg-primary-50"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.name}
-            </Link>
+            </button>
           ))}
-          <a
-            href="/resume.pdf"
+          <button
+            onClick={handleResumeClick}
             className="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary-600 hover:bg-primary-700"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             Resume
-          </a>
+          </button>
         </div>
       </motion.div>
     </motion.nav>
