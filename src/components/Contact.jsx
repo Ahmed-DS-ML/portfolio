@@ -80,7 +80,8 @@ const Contact = () => {
               {/* Contact Form */}
               <form
                 name="contact"
-                netlify
+                method="POST"
+                data-netlify="true"
                 netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
                 className="space-y-6 mb-8"

@@ -1,17 +1,33 @@
 /* Tailwind base styles */
-@import 'tailwindcss/base';
+@tailwind base;
 /* Tailwind component styles */
-@import 'tailwindcss/components';
+@tailwind components;
 /* Tailwind utility styles */
-@import 'tailwindcss/utilities';
+@tailwind utilities;
 
-/* Base Styles */
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
 }
 
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn {
+    @apply inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+  }
+}
+
+/* Base Styles */
 body {
-  background-color: #f8fafc;
+  @apply bg-secondary-50 text-secondary-900;
   color: #0f172a;
 }
 
@@ -30,13 +46,6 @@ body {
 
 .nav-link.active {
   color: #0284c7;
-}
-
-.btn {
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
 }
 
 .btn-primary {
