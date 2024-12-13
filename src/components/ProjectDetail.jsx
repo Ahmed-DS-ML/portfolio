@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt, FaYoutube, FaDownload } from 'react-icons/fa';
-import { Document, Page, pdfjs } from '@react-pdf/renderer';
+import { Document, Page } from 'react-pdf';
+import { pdfjs } from 'react-pdf';
 import { useParams } from 'react-router-dom';
 
-// Set the worker source
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+// Initialize PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.js',
+  import.meta.url,
+).toString();
 
 const ProjectDetail = () => {
   const { id } = useParams();

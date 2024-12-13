@@ -72,6 +72,12 @@ const DualSlideshow = () => {
             fileId: '1PJ0YnLWIo_XD3BZdAEq6BcVADJxwrwE6',
             title: 'Project Cycle Time',
             description: 'Video demonstration of the project'
+          },
+          {
+            type: 'image',
+            url: '/images/achievements/photo.jpg',
+            title: 'My photo',
+            description: 'Remote Work'
           }
         ];
 

@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 // Configure React Router with v7 features
 const router = createBrowserRouter([

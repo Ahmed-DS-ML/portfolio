@@ -20,10 +20,10 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
-      external: ['react-pdf'],
       output: {
-        globals: {
-          'react-pdf': 'ReactPDF'
+        manualChunks: {
+          'react-pdf': ['react-pdf'],
+          'pdfjs-dist': ['pdfjs-dist']
         }
       }
     },
@@ -33,6 +33,6 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    include: ['@react-pdf/renderer']
+    include: ['react-pdf', 'pdfjs-dist']
   }
 });
