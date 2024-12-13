@@ -20,9 +20,19 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-      },
+      external: ['react-pdf'],
+      output: {
+        globals: {
+          'react-pdf': 'ReactPDF'
+        }
+      }
     },
+    commonjsOptions: {
+      include: [/node_modules/],
+      transformMixedEsModules: true
+    }
   },
-})
+  optimizeDeps: {
+    include: ['@react-pdf/renderer']
+  }
+});
