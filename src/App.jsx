@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Outlet, useRoutes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -18,32 +18,47 @@ const LoadingSpinner = () => (
 );
 
 const MainContent = () => (
-  <Suspense fallback={<LoadingSpinner />}>
-    <Hero />
-    <About />
-    <Projects />
-    <Contact />
-  </Suspense>
+  <>
+    <Suspense fallback={<LoadingSpinner />}>
+      <Hero />
+      <About />
+      <Projects />
+      <Contact />
+    </Suspense>
+  </>
 );
 
 const App = () => {
+  const routes = useRoutes([
+    {
+      path: '/',
+      element: <MainContent />
+    },
+    {
+      path: '/project/:id',
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <ProjectDetail />
+        </Suspense>
+      )
+    },
+    {
+      path: '*',
+      element: (
+        <div className="min-h-screen flex items-center justify-center">
+          <h1 className="text-2xl font-bold text-gray-800">
+            Page Not Found
+          </h1>
+        </div>
+      )
+    }
+  ]);
+
   return (
     <div className="bg-primary-50 min-h-screen">
       <Navbar />
       <main>
-        <Routes>
-          <Route path="/" element={<MainContent />} />
-          <Route path="/project/:id" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ProjectDetail />
-            </Suspense>
-          } />
-          <Route path="*" element={
-            <div className="min-h-screen flex items-center justify-center">
-              <h1 className="text-2xl font-bold text-gray-800">Page Not Found</h1>
-            </div>
-          } />
-        </Routes>
+        {routes}
       </main>
       <Footer />
     </div>

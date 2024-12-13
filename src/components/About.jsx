@@ -1,43 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  FaDatabase,
+  FaBrain,
+  FaCode,
+  FaServer,
+} from "react-icons/fa";
 
 const About = () => {
   const skills = {
-    'Programming & Tools': ['Python', 'SQL', 'Tableau', 'Power BI', 'Looker', 'Excel'],
-    'Data Skills': ['Data Collection', 'Mathematics', 'Statistics', 'Data Preprocessing', 'Data Mining', 'HTML'],
-    'Machine Learning': ['KNN', 'Decision Trees (DT)', 'K-means'],
-    'Additional Skills': ['Data Visualization', 'Database Management', 'Operations Research', 'Communication Skills', 'English']
+    "Programming & Tools": [
+      "Python",
+      "SQL",
+      "Tableau",
+      "Power BI",
+      "Looker",
+      "Excel",
+    ],
+    "Data Skills": [
+      "Data Collection",
+      "Mathematics",
+      "Statistics",
+      "Data Preprocessing",
+      "Data Mining",
+      "HTML",
+    ],
+    "Machine Learning": ["KNN", "Decision Trees (DT)", "K-means","Logistic Regression","Support Vector Machines (SVM)","Random Forest","Neural Networks","Reinforcement Learning"],
+    "Deep Learning": ["TensorFlow", "PyTorch", "Keras", "OpenCV", ],
+    "Additional Skills": [
+      "Data Visualization",
+      "Database Management",
+      "Operations Research",      "Communication Skills",
+      "English",
+    ],
+  };
+
+  const technicalExpertise = {
+    BIG_DATA: {
+      title: "Big Data Tools",
+      icon: FaDatabase,
+      skills: ["Hadoop", "Spark", "Kafka", "MongoDB", "Redis"],
+    },
+    ML_ALGORITHMS: {
+      title: "ML Algorithms",
+      icon: FaBrain,
+      skills: [
+        "K-means Clustering",
+        "Association Rules (Apriori)",
+        "Linear Regression",
+        "Naïve Bayesian Classifiers",
+        "Decision Trees",
+      ],
+    },
+    FRAMEWORKS: {
+      title: "Frameworks & Libraries",
+      icon: FaCode,
+      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy"],
+    },
+    INFRASTRUCTURE: {
+      title: "Infrastructure",
+      icon: FaServer,
+      skills: ["Docker", "Kubernetes", "AWS", "Azure", "GCP"],
+    },
   };
 
   const education = [
     {
       degree: "Pre-master's in data science",
-      institution: "Faculty of Graduate Studies for Statistical Research – Cairo University",
+      institution:
+        "Faculty of Graduate Studies for Statistical Research – Cairo University",
       location: "Egypt",
       period: "09/2023 - Present",
-      details: "Pre-master in Academic Data Science"
+      details: "Pre-master in Academic Data Science",
     },
     {
       degree: "Diploma in Data Science",
-      institution: "Faculty of Graduate Studies for Statistical Research – Cairo University",
+      institution:
+        "Faculty of Graduate Studies for Statistical Research – Cairo University",
       location: "Egypt",
       period: "09/2021 – 5/2023",
-      details: "Diploma in Academic Data Science"
+      details: "Diploma in Academic Data Science",
     },
     {
       degree: "Bachelor of Agricultural Engineering",
       institution: "Ain Shams University",
       location: "Egypt",
       period: "09/2015 - 06/2019",
-      details: "Major in Power and Machinery Engineering (Mechanical Engineering)"
-    }
+      details:
+        "Major in Power and Machinery Engineering (Mechanical Engineering)",
+    },
   ];
 
   const certifications = [
     "Google Analytics Certification",
     "Data Analyst with Python (Data Camp)",
     "The Complete Python Bootcamp from Zero to Hero in Python (Pierian Training)",
-    "Python for Data Science and Machine Learning Bootcamp (Pierian Training)"
+    "Python for Data Science and Machine Learning Bootcamp (Pierian Training)",
   ];
 
   return (
@@ -50,21 +108,28 @@ const About = () => {
           viewport={{ once: true }}
         >
           <h2 className="section-title text-center mb-12">About Me</h2>
-          
+
           {/* Main Introduction */}
           <div className="prose prose-lg max-w-4xl mx-auto mb-16 text-secondary-600">
             <p className="mb-4">
-              I am a data science professional with extensive experience in data analysis, machine learning, and automation. 
-              Skilled in Python, SQL, Tableau, Power BI, and Looker, I leverage data to drive business decisions by providing actionable insights.
+              I am a data science professional with extensive experience in data
+              analysis, machine learning, and automation. Skilled in Python,
+              SQL, Tableau, Power BI, and Looker, I leverage data to drive
+              business decisions by providing actionable insights.
             </p>
             <p className="mb-4">
-              As Head of Analytics and Automation at Elshorbagy Plastic Group, I lead the development of automated systems 
-              and generate reports across sales, production, HR, finance, and inventory. Notable achievements include developing 
-              a patent-pending automation system for injection machines and integrating real-time monitoring systems with ERP solutions.
+              As Head of Analytics and Automation at Elshorbagy Plastic Group, I
+              lead the development of automated systems and generate reports
+              across sales, production, HR, finance, and inventory. Notable
+              achievements include developing a patent-pending automation system
+              for injection machines and integrating real-time monitoring
+              systems with ERP solutions.
             </p>
             <p>
-              I am a collaborative team player, focused on fostering positive team dynamics while driving project success. 
-              My experience balancing innovation with efficiency ensures high-quality results in fast-paced, demanding environments.
+              I am a collaborative team player, focused on fostering positive
+              team dynamics while driving project success. My experience
+              balancing innovation with efficiency ensures high-quality results
+              in fast-paced, demanding environments.
             </p>
           </div>
 
@@ -73,12 +138,48 @@ const About = () => {
             <h3 className="section-subtitle text-center mb-8">Skills</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {Object.entries(skills).map(([category, skillList]) => (
-                <div key={category} className="bg-white p-6 rounded-lg shadow-md">
-                  <h4 className="font-semibold text-primary-600 mb-4">{category}</h4>
+                <div
+                  key={category}
+                  className="bg-white p-6 rounded-lg shadow-md"
+                >
+                  <h4 className="font-semibold text-primary-600 mb-4">
+                    {category}
+                  </h4>
                   <ul className="space-y-2">
                     {skillList.map((skill) => (
-                      <li key={skill} className="text-secondary-600 flex items-center">
+                      <li
+                        key={skill}
+                        className="text-secondary-600 flex items-center"
+                      >
                         <span className="w-2 h-2 bg-primary-400 rounded-full mr-2"></span>
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Technical Expertise Section */}
+          <div className="mb-16">
+            <h3 className="section-subtitle text-center mb-8">Technical Expertise</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {Object.values(technicalExpertise).map((category) => (
+                <div key={category.title} className="bg-white p-6 rounded-lg shadow-md">
+                  <div className="flex items-center gap-3 mb-4">
+                    {React.createElement(category.icon, {
+                      className: "text-primary-600 w-6 h-6",
+                    })}
+                    <h4 className="font-semibold text-lg">{category.title}</h4>
+                  </div>
+                  <ul className="space-y-2">
+                    {category.skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="flex items-center text-gray-600 hover:text-primary-600 transition-colors"
+                      >
+                        <span className="w-2 h-2 bg-primary-600 rounded-full mr-2" />
                         {skill}
                       </li>
                     ))}
@@ -93,10 +194,17 @@ const About = () => {
             <h3 className="section-subtitle text-center mb-8">Education</h3>
             <div className="space-y-8">
               {education.map((edu) => (
-                <div key={edu.degree} className="bg-white p-6 rounded-lg shadow-md">
-                  <h4 className="font-semibold text-primary-600">{edu.degree}</h4>
+                <div
+                  key={edu.degree}
+                  className="bg-white p-6 rounded-lg shadow-md"
+                >
+                  <h4 className="font-semibold text-primary-600">
+                    {edu.degree}
+                  </h4>
                   <p className="text-secondary-600">{edu.institution}</p>
-                  <p className="text-secondary-500">{edu.location} | {edu.period}</p>
+                  <p className="text-secondary-500">
+                    {edu.location} | {edu.period}
+                  </p>
                   <p className="text-secondary-600 mt-2">{edu.details}</p>
                 </div>
               ))}
@@ -105,7 +213,9 @@ const About = () => {
 
           {/* Certifications Section */}
           <div>
-            <h3 className="section-subtitle text-center mb-8">Certifications</h3>
+            <h3 className="section-subtitle text-center mb-8">
+              Certifications
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {certifications.map((cert) => (
                 <div key={cert} className="bg-white p-4 rounded-lg shadow-md">
