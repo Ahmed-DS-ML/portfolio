@@ -212,7 +212,7 @@ const About = () => {
           </div>
 
           {/* Certifications Section */}
-          <div>
+          <div className="mb-12">
             <h3 className="section-subtitle text-center mb-8">
               Certifications
             </h3>
@@ -222,6 +222,58 @@ const About = () => {
                   <p className="text-secondary-600">{cert}</p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Activities and Initiatives Section */}
+          <div>
+            <h3 className="section-subtitle text-center mb-8">
+              Activities and Initiatives
+            </h3>
+            <div className="space-y-8">
+              {/* Workshop for Teaching Mathematics */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-primary-600 mb-3">
+                  Workshop for Teaching Mathematics
+                </h4>
+                <ul className="list-disc list-inside space-y-2 text-secondary-600">
+                  <li>
+                    Organized a workshop at the Faculty of Computers science, Ain Shams University, 
+                    to teach mathematics and assist students in solving mathematical problems.
+                  </li>
+                  <li>
+                    Provided support to students within the university campus, focusing on simplifying 
+                    complex information and offering clear explanations to enhance their understanding.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Supporting Students */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-primary-600 mb-3">
+                  Supporting Students in University Dormitories
+                </h4>
+                <div className="text-secondary-600">
+                  <h5 className="font-medium mb-2">Mathematics Problem-Solving Competitions:</h5>
+                  <p>
+                    Organized workshops to prepare students for mathematics competitions in computer science, 
+                    fostering a competitive spirit and deepening their problem-solving skills.
+                  </p>
+                </div>
+              </div>
+
+              {/* Community Mathematics Tutoring */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="text-lg font-semibold text-primary-600 mb-3">
+                  Community Mathematics Tutoring
+                </h4>
+                <div className="text-secondary-600">
+                  <p>
+                    Conducted mathematics tutoring sessions for middle and high school students in my community, 
+                    utilizing real-life examples and interactive methods to simplify concepts and improve their comprehension.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>

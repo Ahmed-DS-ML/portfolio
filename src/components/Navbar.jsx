@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaGithub, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaBars, FaTimes, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,26 +23,27 @@ const Navbar = () => {
     { name: 'Projects', href: '#projects' },
     { name: 'Achievements', href: '#achievements' },
     { name: 'Contact', href: '#contact' },
+    { name: 'AI Model', href: '/ai-model' }
   ];
 
   const socialLinks = [
     { 
       name: 'GitHub', 
       icon: FaGithub, 
-      href: 'https://github.com/yourusername',
+      href: 'https://github.com/Ahmed-DS-ML',
       hoverColor: 'hover:text-gray-900'
     },
     { 
       name: 'LinkedIn', 
       icon: FaLinkedin, 
-      href: 'https://linkedin.com/in/yourusername',
+      href: 'https://www.linkedin.com/in/ahmed-datascince/',
       hoverColor: 'hover:text-blue-600'
     },
     { 
-      name: 'Twitter', 
-      icon: FaTwitter, 
-      href: 'https://twitter.com/yourusername',
-      hoverColor: 'hover:text-sky-500'
+      name: 'X', 
+      icon: FaXTwitter, 
+      href: 'https://x.com/AhmedAshra31860',
+      hoverColor: 'hover:text-gray-900'
     },
     { 
       name: 'YouTube', 

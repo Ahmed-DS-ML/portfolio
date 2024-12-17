@@ -1,314 +1,225 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaYoutube, FaDownload } from 'react-icons/fa';
-import { Document, Page } from 'react-pdf';
-import { pdfjs } from 'react-pdf';
-import { useParams } from 'react-router-dom';
-
-// Initialize PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
-).toString();
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import JupyterCodeDisplay from "./JupyterCodeDisplay";
+import AIModel from "./AIModel";
+import BackToProjects from "./BackToProjects";
+import Navbar from './Navbar';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const navigate = useNavigate();
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Example project data structure - Replace with your actual data
-  const project = {
-    id: 'anomaly-detection',
-    title: 'Industrial Anomaly Detection System',
-    shortDescription: 'AI-powered system for detecting manufacturing anomalies in real-time',
-    fullDescription: `A comprehensive anomaly detection system that leverages deep learning to identify manufacturing defects in real-time. The system processes sensor data and visual inputs to maintain quality control standards.`,
-    technologies: ['Python', 'TensorFlow', 'OpenCV', 'Docker', 'FastAPI'],
-    timeline: 'Jan 2023 - Present',
-    role: 'Lead Data Scientist',
-    company: 'Elshorbagy Plastic Group',
-    images: [
-      {
-        url: '/images/anomaly-detection/main.jpg',
-        caption: 'System Dashboard'
-      },
-      {
-        url: '/images/anomaly-detection/architecture.jpg',
-        caption: 'System Architecture'
-      },
-      {
-        url: '/images/anomaly-detection/results.jpg',
-        caption: 'Performance Results'
-      }
-    ],
-    documents: [
-      {
-        name: 'Technical Documentation',
-        url: '/docs/anomaly-detection-tech-doc.pdf'
-      },
-      {
-        name: 'Research Paper',
-        url: '/docs/anomaly-detection-paper.pdf'
-      }
-    ],
-    links: {
-      github: 'https://github.com/yourusername/project',
-      live: 'https://project-demo.com',
-      youtube: 'https://youtube.com/watch?v=...'
-    },
-    keyFeatures: [
-      'Real-time anomaly detection with 99.5% accuracy',
-      'Processing of multiple data streams simultaneously',
-      'Custom-built deep learning architecture',
-      'Automated alert system',
-      'Interactive dashboard for monitoring'
-    ],
-    challenges: [
-      'Handling high-frequency sensor data in real-time',
-      'Developing robust ML models for diverse anomaly types',
-      'Optimizing system performance for production environment'
-    ],
-    results: [
-      '50% reduction in quality control costs',
-      '35% improvement in defect detection rate',
-      '90% decrease in false positive alerts'
-    ]
-  };
+  useEffect(() => {
+    const projectsData = JSON.parse(localStorage.getItem("projectsData") || "[]");
+    const allProjects = Object.values(projectsData).flat();
+    const foundProject = allProjects.find((p) => p.id === parseInt(id));
+    
+    if (foundProject) {
+      setProject(foundProject);
+    }
+    setLoading(false);
+  }, [id]);
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <BackToProjects />
+        <div className="text-center mt-4">
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+            Project Not Found
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
+  const projectCategories = project.categories || [];
+  const mainCategory = projectCategories[0] || "Project";
+
+  // Sample Jupyter notebook code for the project
+  const sampleCode = `
+# Import necessary libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load and preprocess data
+def load_data(filename):
+    data = pd.read_csv(filename)
+    return data.dropna()
+
+# Train model
+def train_model(X, y):
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LinearRegression
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    return model
+
+# Main execution
+if __name__ == "__main__":
+    data = load_data("dataset.csv")
+    model = train_model(data.X, data.y)
+    print("Training complete!")
+  `;
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Project Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {project.title}
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {project.shortDescription}
-          </p>
-        </motion.div>
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      
+      {/* Back Button */}
+      <motion.button
+        onClick={handleBack}
+        className="fixed top-24 left-8 z-50 flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <FaArrowLeft className="w-4 h-4" />
+        <span>Back</span>
+      </motion.button>
 
-        {/* Quick Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-xl shadow-md"
-          >
-            <h3 className="text-lg font-semibold mb-2">Timeline</h3>
-            <p className="text-gray-600">{project.timeline}</p>
-            <p className="text-gray-600">{project.company}</p>
-            <p className="text-gray-600">{project.role}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-xl shadow-md"
-          >
-            <h3 className="text-lg font-semibold mb-2">Technologies</h3>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 bg-primary-50 text-primary-700 rounded-full text-sm"
-                >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        className="min-h-screen bg-gray-50 pt-16"
+      >
+        <BackToProjects />
+        
+        {/* Project Hero Section */}
+        <div className="project-container">
+          {project.image && (
+            <img
+              src={project.image}
+              alt={project.title}
+              className={`project-image ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              onLoad={() => setImageLoaded(true)}
+            />
+          )}
+          <div className="text-overlay">
+            <div className="project-tags">
+              <span className="project-tag">{mainCategory}</span>
+              {project.technologies?.map((tech, index) => (
+                <span key={index} className="project-tag">
                   {tech}
                 </span>
               ))}
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white p-6 rounded-xl shadow-md"
-          >
-            <h3 className="text-lg font-semibold mb-2">Links</h3>
-            <div className="flex space-x-4">
-              {project.links.github && (
+            <h1>{project.title}</h1>
+            <h2>{project.subtitle || mainCategory}</h2>
+            <h3>{project.technologies?.join(", ")}</h3>
+            <p>{project.description}</p>
+            <div className="project-buttons">
+              {project.githubLink && (
                 <a
-                  href={project.links.github}
+                  href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary-600 transition-colors"
+                  className="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-300 mr-4"
                 >
-                  <FaGithub className="w-6 h-6" />
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                  View on GitHub
                 </a>
               )}
-              {project.links.live && (
+              {project.demo && (
                 <a
-                  href={project.links.live}
+                  href={project.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-primary-600 transition-colors"
+                  className="inline-flex items-center px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors duration-300"
                 >
-                  <FaExternalLinkAlt className="w-6 h-6" />
-                </a>
-              )}
-              {project.links.youtube && (
-                <a
-                  href={project.links.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-red-600 transition-colors"
-                >
-                  <FaYoutube className="w-6 h-6" />
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  Live Demo
                 </a>
               )}
             </div>
-          </motion.div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {/* Left Column - Images */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-2"
-          >
-            <div className="bg-white p-6 rounded-xl shadow-md mb-6">
-              <h2 className="text-2xl font-semibold mb-4">Project Gallery</h2>
-              <div className="grid grid-cols-2 gap-4">
-                {project.images.map((image, index) => (
-                  <motion.div
-                    key={index}
-                    whileHover={{ scale: 1.02 }}
-                    className="relative group cursor-pointer"
-                    onClick={() => setSelectedImage(image)}
-                  >
-                    <img
-                      src={image.url}
-                      alt={image.caption}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-lg" />
-                    <p className="absolute bottom-0 left-0 right-0 p-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/70 to-transparent rounded-b-lg">
-                      {image.caption}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-2xl font-semibold mb-4">Project Description</h2>
-              <p className="text-gray-600 mb-6 whitespace-pre-line">
-                {project.fullDescription}
-              </p>
-
-              <h3 className="text-xl font-semibold mb-3">Key Features</h3>
-              <ul className="list-disc list-inside mb-6 space-y-2">
-                {project.keyFeatures.map((feature, index) => (
-                  <li key={index} className="text-gray-600">{feature}</li>
-                ))}
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3">Challenges & Solutions</h3>
-              <ul className="list-disc list-inside mb-6 space-y-2">
-                {project.challenges.map((challenge, index) => (
-                  <li key={index} className="text-gray-600">{challenge}</li>
-                ))}
-              </ul>
-
-              <h3 className="text-xl font-semibold mb-3">Results & Impact</h3>
-              <ul className="list-disc list-inside space-y-2">
-                {project.results.map((result, index) => (
-                  <li key={index} className="text-gray-600">{result}</li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Documents & Resources */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
-          >
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <h2 className="text-2xl font-semibold mb-4">Resources</h2>
-              <div className="space-y-3">
-                {project.documents.map((doc, index) => (
-                  <a
-                    key={index}
-                    href={doc.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
-                  >
-                    <FaDownload className="w-5 h-5 text-gray-400 group-hover:text-primary-600 mr-3" />
-                    <span className="text-gray-600 group-hover:text-gray-900">
-                      {doc.name}
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* PDF Preview */}
-            {project.documents.map((doc, index) => (
-              doc.url.endsWith('.pdf') && (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-md">
-                  <h3 className="text-lg font-semibold mb-4">{doc.name} Preview</h3>
-                  <div className="border rounded-lg overflow-hidden">
-                    <Document
-                      file={doc.url}
-                      onLoadSuccess={onDocumentLoadSuccess}
-                      className="w-full"
-                    >
-                      <Page
-                        pageNumber={pageNumber}
-                        width={300}
-                        className="mx-auto"
-                      />
-                    </Document>
-                    {numPages && (
-                      <div className="p-4 border-t text-center text-sm text-gray-600">
-                        Page {pageNumber} of {numPages}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            ))}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Image Modal */}
-      {selectedImage && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className="relative max-w-4xl w-full">
-            <img
-              src={selectedImage.url}
-              alt={selectedImage.caption}
-              className="w-full h-auto rounded-lg"
-            />
-            <p className="absolute bottom-0 left-0 right-0 p-4 text-white bg-gradient-to-t from-black/70 to-transparent">
-              {selectedImage.caption}
-            </p>
           </div>
-        </motion.div>
-      )}
+        </div>
+
+        {/* Project Content */}
+        <div className="container mx-auto px-4 py-12">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-8">
+              <Tabs className="project-tabs">
+                <TabList className="flex border-b border-gray-200 mb-8">
+                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
+                    Overview
+                  </Tab>
+                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
+                    Code Implementation
+                  </Tab>
+                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
+                    AI Playground
+                  </Tab>
+                </TabList>
+
+                <TabPanel>
+                  <div className="space-y-8">
+                    <div>
+                      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Project Overview</h2>
+                      <p className="text-gray-600 leading-relaxed mb-6">
+                        {project.longDescription || project.description}
+                      </p>
+                      {project.githubLink && (
+                        <div className="mt-6">
+                          <h3 className="text-xl font-semibold text-gray-800 mb-3">Source Code</h3>
+                          <a
+                            href={project.githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-primary-600 hover:text-primary-700"
+                          >
+                            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            View Project on GitHub
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </TabPanel>
+
+                <TabPanel>
+                  <JupyterCodeDisplay code={sampleCode} />
+                </TabPanel>
+
+                <TabPanel>
+                  <AIModel />
+                </TabPanel>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

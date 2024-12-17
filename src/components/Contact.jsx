@@ -25,26 +25,20 @@ const Contact = () => {
     }));
   };
 
-  const encode = (data) => {
-    return Object.keys(data)
-      .map(
-        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]),
-      )
-      .join("&");
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("sending");
 
     try {
+      const form = e.target;
+      const data = new FormData(form);
+      
       const response = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({
-          "form-name": "contact",
-          ...formData,
-        }),
+        headers: {
+          "Accept": "application/json",
+        },
+        body: new URLSearchParams(data).toString(),
       });
 
       if (response.ok) {
@@ -52,6 +46,7 @@ const Contact = () => {
         setFormData({ name: "", email: "", message: "" });
         setTimeout(() => setFormStatus(""), 5000);
       } else {
+        console.error("Form submission failed with status:", response.status);
         throw new Error("Form submission failed");
       }
     } catch (error) {
@@ -91,7 +86,7 @@ const Contact = () => {
                 name="contact"
                 method="POST"
                 data-netlify="true"
-                netlify-honeypot="bot-field"
+                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
                 className="space-y-6 mb-8"
               >
@@ -164,7 +159,7 @@ const Contact = () => {
 
                 {formStatus === "success" && (
                   <p className="text-green-600 text-center">
-                    Thank you for your message! I'll get back to you soon.
+                    Thank you for your message! I&apos;ll get back to you as soon as possible!
                   </p>
                 )}
                 {formStatus === "error" && (

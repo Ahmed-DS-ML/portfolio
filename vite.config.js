@@ -1,38 +1,34 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 3000,
-    host: true, // Listen on all local IPs
-    open: true, // Open browser on server start
-    cors: true, // Enable CORS
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
-    },
-  },
+  base: '/',
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    },
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-pdf': ['react-pdf'],
-          'pdfjs-dist': ['pdfjs-dist']
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['framer-motion', 'react-tabs']
         }
       }
-    },
-    commonjsOptions: {
-      include: [/node_modules/],
-      transformMixedEsModules: true
     }
   },
+  server: {
+    historyApiFallback: true,
+    port: 5173,
+    strictPort: true,
+    open: true
+  },
   optimizeDeps: {
-    include: ['react-pdf', 'pdfjs-dist']
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
   }
 });
