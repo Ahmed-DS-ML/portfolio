@@ -2,19 +2,21 @@
   command = "npm run build"
   publish = "dist"
 
-[dev]
-  command = "npm run dev"
-  framework = "vite"
+# Handle client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true # Important for SPA routing
 
 [build.environment]
   NODE_VERSION = "18"
+
+[dev]
+  command = "npm run dev"
+  framework = "vite"
 
 [[headers]]
   for = "/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

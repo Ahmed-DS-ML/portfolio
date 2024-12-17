@@ -53,19 +53,22 @@ const App = () => {
             path="/ai-model"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <div className="container mx-auto px-4 py-24">
-                  <AIModel />
-                </div>
+                <AIModel />
               </Suspense>
             }
           />
           <Route
             path="*"
             element={
-              <div className="min-h-screen flex items-center justify-center">
-                <h1 className="text-2xl font-bold text-gray-800">
-                  404 - Page Not Found
-                </h1>
+              <div className="min-h-[60vh] flex flex-col items-center justify-center p-4">
+                <h1 className="text-4xl font-bold text-gray-800 mb-4">Page Not Found</h1>
+                <p className="text-gray-600 mb-6">Sorry, the page you're looking for doesn't exist.</p>
+                <a
+                  href="/"
+                  className="px-6 py-3 bg-[#0088cc] text-white rounded-lg hover:bg-[#0077b3] transition-colors"
+                >
+                  Back to Home
+                </a>
               </div>
             }
           />
