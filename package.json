@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "lint": "eslint src --ext .js,.jsx --fix",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx,css,md}\"",
-    "lint": "eslint src --ext .js,.jsx --fix",
-    "clean": "rimraf dist"
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.36",
@@ -17,7 +17,6 @@
     "@heroicons/react": "^2.1.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.15",
-    "@vitejs/plugin-react": "^4.2.1",
     "firebase": "^10.7.1",
     "framer-motion": "^10.17.9",
     "react": "^18.2.0",
@@ -29,22 +28,25 @@
     "react-tabs": "^6.0.2",
     "react-toastify": "^11.0.0",
     "react-type-animation": "^3.2.0",
-    "swiper": "^11.1.15",
-    "vite": "^5.0.8"
+    "swiper": "^11.1.15"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.55.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "@babel/eslint-parser": "^7.25.9",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "postcss": "^8.4.32",
-    "postcss-import": "^15.1.0",
-    "postcss-nesting": "^12.0.1",
+    "netlify-cli": "^17.38.1",
+    "postcss": "^8.4.49",
+    "postcss-import": "^16.1.0",
+    "postcss-nesting": "^13.0.1",
     "prettier": "^3.1.1",
-    "tailwindcss": "^3.4.0",
-    "terser": "^5.26.0"
+    "tailwindcss": "^3.4.16",
+    "terser": "^5.26.0",
+    "vite": "^5.0.10"
   }
 }
