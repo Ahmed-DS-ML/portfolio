@@ -21,6 +21,22 @@ const AIModel = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Try to get API keys from environment first, then fallback to localStorage
+    const envKey = import.meta.env[`VITE_${selectedModel.toUpperCase()}_API_KEY`];
+    if (envKey) {
+      setApiKey(envKey);
+    } else {
+      const savedKey = savedKeys[selectedModel];
+      if (savedKey) {
+        const decryptedKey = decryptApiKey(savedKey);
+        setApiKey(decryptedKey);
+      } else {
+        setApiKey('');
+      }
+    }
+  }, [selectedModel, savedKeys]);
+
+  useEffect(() => {
     // Load saved API keys from localStorage
     const loadedKeys = localStorage.getItem('aiModelApiKeys');
     if (loadedKeys) {
@@ -28,55 +44,66 @@ const AIModel = () => {
     }
   }, []);
 
-  useEffect(() => {
-    // Load saved API key for selected model
-    if (savedKeys[selectedModel]) {
-      setApiKey(savedKeys[selectedModel]);
-    } else {
-      setApiKey('');
+  // Encryption functions for API keys
+  const encryptApiKey = (key) => {
+    try {
+      return btoa(key);
+    } catch (e) {
+      console.error('Encryption failed');
+      return '';
     }
-  }, [selectedModel, savedKeys]);
+  };
 
-  const models = {
-    gemini: {
-      name: "Google Gemini",
-      endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
-      placeholder: "Enter your Gemini API key",
-    },
-    gpt: {
-      name: "OpenAI GPT",
-      endpoint: "https://api.openai.com/v1/chat/completions",
-      placeholder: "Enter your OpenAI API key (Requires paid plan)",
-    },
-    claude: {
-      name: "Anthropic Claude",
-      endpoint: "https://api.anthropic.com/v1/messages",
-      placeholder: "Enter your Claude API key",
+  const decryptApiKey = (encryptedKey) => {
+    try {
+      return atob(encryptedKey);
+    } catch (e) {
+      console.error('Decryption failed');
+      return '';
     }
   };
 
   const saveApiKey = () => {
-    if (!apiKey.trim()) {
-      toast.error("Please enter an API key first!");
+    if (!apiKey.trim()) return;
+    
+    // Don't save environment variables to localStorage
+    if (import.meta.env[`VITE_${selectedModel.toUpperCase()}_API_KEY`]) {
+      toast.warning("API key is managed by environment variables");
       return;
     }
 
-    const updatedKeys = {
-      ...savedKeys,
-      [selectedModel]: apiKey
-    };
-    localStorage.setItem('aiModelApiKeys', JSON.stringify(updatedKeys));
-    setSavedKeys(updatedKeys);
-    toast.success(`API key saved for ${models[selectedModel].name}`);
+    const encryptedKey = encryptApiKey(apiKey);
+    const updatedKeys = { ...savedKeys, [selectedModel]: encryptedKey };
+    
+    try {
+      localStorage.setItem('aiModelApiKeys', JSON.stringify(updatedKeys));
+      setSavedKeys(updatedKeys);
+      toast.success(`API key saved for ${models[selectedModel].name}`);
+    } catch (error) {
+      console.error('Failed to save API key:', error);
+      toast.error('Failed to save API key securely');
+    }
   };
 
   const deleteApiKey = () => {
+    // Don't delete environment variables
+    if (import.meta.env[`VITE_${selectedModel.toUpperCase()}_API_KEY`]) {
+      toast.warning("Cannot delete environment-managed API key");
+      return;
+    }
+
     const updatedKeys = { ...savedKeys };
     delete updatedKeys[selectedModel];
-    localStorage.setItem('aiModelApiKeys', JSON.stringify(updatedKeys));
-    setSavedKeys(updatedKeys);
-    setApiKey('');
-    toast.success(`API key removed for ${models[selectedModel].name}`);
+    
+    try {
+      localStorage.setItem('aiModelApiKeys', JSON.stringify(updatedKeys));
+      setSavedKeys(updatedKeys);
+      setApiKey('');
+      toast.success(`API key removed for ${models[selectedModel].name}`);
+    } catch (error) {
+      console.error('Failed to delete API key:', error);
+      toast.error('Failed to delete API key');
+    }
   };
 
   const handleModelSelect = (model) => {
@@ -88,7 +115,10 @@ const AIModel = () => {
 
   const handleGenerate = async () => {
     if (!input.trim()) return;
-    if (!apiKey.trim()) {
+    
+    // Validate API key
+    const currentApiKey = import.meta.env[`VITE_${selectedModel.toUpperCase()}_API_KEY`] || apiKey;
+    if (!currentApiKey.trim()) {
       toast.error("Please enter an API key first!");
       return;
     }
@@ -97,8 +127,7 @@ const AIModel = () => {
     setOutput("");
 
     try {
-      let response;
-      let result;
+      let response, result;
       const headers = {
         "Content-Type": "application/json",
       };
@@ -106,7 +135,7 @@ const AIModel = () => {
       switch (selectedModel) {
         case "gemini":
           // For Gemini, the API key goes in the URL as a query parameter
-          response = await fetch(`${models.gemini.endpoint}?key=${apiKey}`, {
+          response = await fetch(`${models.gemini.endpoint}?key=${currentApiKey}`, {
             method: "POST",
             headers,
             body: JSON.stringify({
@@ -153,7 +182,7 @@ const AIModel = () => {
           response = await fetch(models.gpt.endpoint, {
             method: "POST",
             headers: {
-              "Authorization": `Bearer ${apiKey}`,
+              "Authorization": `Bearer ${currentApiKey}`,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -201,7 +230,7 @@ const AIModel = () => {
           break;
 
         case "claude":
-          headers["x-api-key"] = apiKey;
+          headers["x-api-key"] = currentApiKey;
           headers["anthropic-version"] = "2023-06-01";
           response = await fetch(models.claude.endpoint, {
             method: "POST",
@@ -260,6 +289,30 @@ const AIModel = () => {
     } catch (err) {
       toast.error('Failed to copy text');
     }
+  };
+
+  const models = {
+    gemini: {
+      name: "Google Gemini",
+      endpoint: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+      placeholder: "Enter your Gemini API key",
+    },
+    gpt: {
+      name: "OpenAI GPT",
+      endpoint: "https://api.openai.com/v1/chat/completions",
+      placeholder: "Enter your OpenAI API key (Requires paid plan)",
+    },
+    claude: {
+      name: "Anthropic Claude",
+      endpoint: "https://api.anthropic.com/v1/messages",
+      placeholder: "Enter your Claude API key",
+    }
+  };
+
+  // Mask API key in UI
+  const maskApiKey = (key) => {
+    if (!key) return '';
+    return `${key.slice(0, 4)}${'*'.repeat(key.length - 8)}${key.slice(-4)}`;
   };
 
   return (
@@ -415,10 +468,12 @@ const AIModel = () => {
               <div className="relative">
                 <input
                   type={showApiInput ? "text" : "password"}
-                  value={apiKey}
+                  value={showApiInput ? apiKey : maskApiKey(apiKey)}
                   onChange={(e) => setApiKey(e.target.value)}
                   placeholder={models[selectedModel].placeholder}
-                  className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0088cc] focus:border-[#0088cc] bg-gray-50"
+                  className="w-full p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0088cc] focus:border-[#0088cc] bg-gray-50 font-mono"
+                  autoComplete="off"
+                  spellCheck="false"
                 />
                 <button
                   onClick={() => setShowApiInput(!showApiInput)}

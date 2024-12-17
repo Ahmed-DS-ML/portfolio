@@ -6,10 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext .js,.jsx --fix",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx,css,md}\"",
-    "postinstall": "npm run build"
+    "lint": "eslint src --ext .js,.jsx --fix"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.36",
