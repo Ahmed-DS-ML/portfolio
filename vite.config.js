@@ -14,11 +14,14 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
           animations: ['framer-motion'],
+          ui: ['@headlessui/react', '@heroicons/react'],
+          router: ['react-router-dom'],
         },
       },
     },
