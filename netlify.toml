@@ -4,13 +4,10 @@
 
 [dev]
   command = "npm run dev"
-  port = 8888
-  targetPort = 3000
-  framework = "#custom"
+  framework = "vite"
 
 [build.environment]
-  NODE_VERSION = "18.20.5"
-  NPM_VERSION = "10.8.2"
+  NODE_VERSION = "18"
 
 [[headers]]
   for = "/*"
@@ -50,6 +47,3 @@
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
