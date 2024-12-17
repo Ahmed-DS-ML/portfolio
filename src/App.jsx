@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -9,7 +9,8 @@ const About = React.lazy(() => import('./components/About'));
 const Projects = React.lazy(() => import('./components/Projects'));
 const Contact = React.lazy(() => import('./components/Contact'));
 const ProjectDetail = React.lazy(() => import('./components/ProjectDetail'));
-const AIModelPage = React.lazy(() => import('./components/AIModelPage'));
+const AIModel = React.lazy(() => import('./components/AIModel'));
+const Achievements = React.lazy(() => import('./components/Achievements'));
 
 // Loading fallback
 const LoadingSpinner = () => (
@@ -24,15 +25,19 @@ const MainContent = () => (
       <Hero />
       <About />
       <Projects />
+      <Achievements />
       <Contact />
     </Suspense>
   </>
 );
 
 const App = () => {
+  const location = useLocation();
+  const isAIModelPage = location.pathname === '/ai-model';
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      {!isAIModelPage && <Navbar />}
       <main>
         <Routes>
           <Route path="/" element={<MainContent />} />
@@ -48,7 +53,9 @@ const App = () => {
             path="/ai-model"
             element={
               <Suspense fallback={<LoadingSpinner />}>
-                <AIModelPage />
+                <div className="container mx-auto px-4 py-24">
+                  <AIModel />
+                </div>
               </Suspense>
             }
           />
@@ -64,7 +71,7 @@ const App = () => {
           />
         </Routes>
       </main>
-      <Footer />
+      {!isAIModelPage && <Footer />}
     </div>
   );
 };

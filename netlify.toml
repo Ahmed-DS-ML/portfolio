@@ -9,7 +9,6 @@
   framework = "#custom"
 
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
   NODE_VERSION = "18.20.5"
   NPM_VERSION = "10.8.2"
 
@@ -51,3 +50,6 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

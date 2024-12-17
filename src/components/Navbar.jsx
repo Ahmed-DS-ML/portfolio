@@ -23,7 +23,7 @@ const Navbar = () => {
     { name: 'Projects', href: '#projects' },
     { name: 'Achievements', href: '#achievements' },
     { name: 'Contact', href: '#contact' },
-    { name: 'AI Model', href: '/ai-model' }
+    { name: 'AI Model', href: '/ai-model' },
   ];
 
   const socialLinks = [
@@ -55,14 +55,24 @@ const Navbar = () => {
 
   const handleNavClick = (href) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    // Handle hash links for smooth scrolling
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    } else if (href === '/') {
+      // Scroll to top when clicking home on the main page
       window.scrollTo({
-        top: offsetPosition,
+        top: 0,
         behavior: 'smooth'
       });
     }
@@ -94,15 +104,16 @@ const Navbar = () => {
             {/* Nav Links */}
             <div className="flex space-x-6">
               {navItems.map((item) => (
-                <button
+                <Link
                   key={item.name}
-                  onClick={() => handleNavClick(item.href)}
+                  to={item.href}
                   className="relative px-4 py-2 text-secondary-600 hover:text-primary-600 text-sm font-medium transition-all duration-300 group"
+                  onClick={() => handleNavClick(item.href)}
                 >
                   <span className="relative z-10">{item.name}</span>
                   <span className="absolute inset-0 bg-primary-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out transform origin-center"></span>
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-                </button>
+                </Link>
               ))}
             </div>
 
@@ -162,13 +173,14 @@ const Navbar = () => {
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <button
+                <Link
                   key={item.name}
-                  onClick={() => handleNavClick(item.href)}
+                  to={item.href}
                   className="block w-full px-3 py-2 rounded-md text-base font-medium text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors text-left"
+                  onClick={() => handleNavClick(item.href)}
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
               
               {/* Mobile Social Links */}
