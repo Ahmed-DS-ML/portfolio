@@ -1,0 +1,69 @@
+#achievements {
+  contain: strict;
+  will-change: transform, opacity;
+}
+
+.slideContainer {
+  isolation: isolate;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  position: relative;
+}
+
+.slideContainer :global(.description-overlay) {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, 
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.8) 60%,
+    rgba(0, 0, 0, 0) 100%);
+  padding: 2.5rem 2rem 2rem;
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slideContainer:hover :global(.description-overlay) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slideContainer :global(.achievement-title) {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.slideContainer :global(.achievement-title)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  width: 50px;
+  height: 2px;
+  background: #3b82f6;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+}
+
+.slideContainer:hover :global(.achievement-title)::after {
+  transform: scaleX(1);
+}
+
+.slideContainer :global(.achievement-description) {
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease-out 0.2s;
+}
+
+.slideContainer:hover :global(.achievement-description) {
+  opacity: 1;
+  transform: translateY(0);
+}

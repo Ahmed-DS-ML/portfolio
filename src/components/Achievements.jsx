@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChevronLeft, FaChevronRight, FaPause, FaPlay } from 'react-icons/fa';
+import styles from './Achievements.module.css';
 
 const Achievements = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,7 +23,7 @@ const Achievements = () => {
     },
     {
       title: "Dr. Saleh",
-      description: "Experienced professional with expertise in manufacturing and production optimization.",
+      description: "CEO of Creative Solutions ERP systems in Egypt, with a Masters in Operations Management and Supply Chain. Successfully integrated the project with ERP Cycle Time systems, enhancing manufacturing process monitoring and optimization capabilities.",
       type: "image",
       media: "/images/achievements/Dr-Saleh.jpg"
     },
@@ -40,19 +41,19 @@ const Achievements = () => {
     },
     {
       title: "Eng-Belal",
-      description: "Technical expert specializing in process optimization.",
+      description: "Factory owner and key decision-maker responsible for project execution and funding. His leadership and vision drive the implementation of innovative manufacturing solutions and continuous improvement initiatives.",
       type: "image",
       media: "/images/achievements/Eng-Belal.jpg"
     },
     {
       title: "Eng-Mohamed Saleh",
-      description: "Senior engineer leading manufacturing excellence initiatives.",
+      description: "Chief Engineer specializing in the innovation and implementation of IML robotics projects. Leading the development and execution of advanced robotic solutions for industrial manufacturing.",
       type: "image",
       media: "/images/achievements/Eng-Mohamed Saleh.jpg"
     },
     {
       title: "Production Dashboard",
-      description: "Comprehensive visualization of production metrics and KPIs, enabling data-driven decision making in manufacturing processes.",
+      description: "A real-time manufacturing dashboard displaying key performance metrics with circular gauges showing OEE (Overall Equipment Effectiveness) at 6.58% and 92.66%. The interface features Arabic text and includes production status indicators, cycle times, and efficiency measurements for comprehensive production monitoring.",
       type: "image",
       media: "/images/achievements/Production-Dashboard.jpg"
     },
@@ -93,151 +94,128 @@ const Achievements = () => {
 
   const slideVariants = {
     enter: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 0.8
+      scale: 0.9
     }),
     center: {
-      zIndex: 1,
       x: 0,
       opacity: 1,
-      scale: 1
+      scale: 1,
+      zIndex: 1
     },
     exit: (direction) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction < 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 0.8
+      scale: 0.9
     })
   };
 
   return (
-    <section id="achievements" className="relative min-h-screen bg-gray-900 py-20">
-      <div className="container mx-auto px-4">
+    <section id="achievements" className={`py-16 bg-gray-100 ${styles.achievements}`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">Achievements</h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Achievements</h2>
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4">
             Showcasing our patents, team expertise, and technological innovations in manufacturing excellence.
           </p>
         </motion.div>
 
-        <div className="relative h-[600px] max-w-6xl mx-auto">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-                scale: { duration: 0.2 }
-              }}
-              className="absolute w-full h-full"
-            >
-              <div className="bg-white rounded-xl overflow-hidden shadow-2xl h-full">
-                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                  <div className="p-8 flex flex-col justify-center bg-gradient-to-r from-white to-gray-50">
-                    <motion.h3 
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="text-3xl font-bold text-primary-600 mb-6"
-                    >
+        <div className={`relative h-[500px] sm:h-[600px] max-w-6xl mx-auto overflow-hidden ${styles.slideContainer}`}>
+          <div className="relative w-full h-full">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                  scale: { duration: 0.2 }
+                }}
+                className="absolute w-full h-full"
+              >
+                <div className="relative w-full h-full">
+                  {achievements[currentIndex].type === 'image' ? (
+                    <img
+                      src={achievements[currentIndex].media}
+                      alt={achievements[currentIndex].title}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <div className="w-full h-full">
+                      <iframe
+                        src={achievements[currentIndex].media}
+                        className="w-full h-full"
+                        allow="autoplay; fullscreen"
+                        allowFullScreen
+                        frameBorder="0"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div className="description-overlay">
+                    <h3 className="achievement-title text-2xl sm:text-3xl font-bold text-white">
                       {achievements[currentIndex].title}
-                    </motion.h3>
-                    <motion.p 
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="text-gray-600 text-lg leading-relaxed mb-6"
-                    >
+                    </h3>
+                    <p className="achievement-description text-base sm:text-lg text-gray-200">
                       {achievements[currentIndex].description}
-                    </motion.p>
-                  </div>
-                  <div className="relative h-full flex items-center justify-center bg-gray-50 p-6">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-full h-full"
-                    >
-                      {achievements[currentIndex].type === 'video' ? (
-                        <iframe
-                          className="w-full h-full rounded-lg shadow-lg"
-                          src={achievements[currentIndex].media}
-                          allow="autoplay"
-                          allowFullScreen
-                        />
-                      ) : (
-                        <div className="relative w-full h-full overflow-hidden rounded-lg shadow-lg flex items-center justify-center">
-                          <img
-                            src={achievements[currentIndex].media}
-                            alt={achievements[currentIndex].title}
-                            className="max-w-full max-h-[500px] w-auto h-auto object-contain hover:scale-105 transition-transform duration-300"
-                            style={{
-                              aspectRatio: 'auto',
-                              objectFit: 'contain',
-                              margin: 'auto'
-                            }}
-                          />
-                        </div>
-                      )}
-                    </motion.div>
+                    </p>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+              </motion.div>
+            </AnimatePresence>
 
-          {/* Navigation Buttons */}
-          <button
-            onClick={handlePrev}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg z-10 transition-all"
-          >
-            <FaChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg z-10 transition-all"
-          >
-            <FaChevronRight className="w-6 h-6" />
-          </button>
+            {/* Navigation Buttons */}
+            <button
+              onClick={handlePrev}
+              className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 sm:p-3 rounded-full shadow-lg z-10 transition-all touch-manipulation"
+            >
+              <FaChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 sm:p-3 rounded-full shadow-lg z-10 transition-all touch-manipulation"
+            >
+              <FaChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
 
-          {/* Auto-play Toggle Button */}
-          <button
-            onClick={toggleAutoPlay}
-            className="absolute right-4 top-4 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg z-10 transition-all"
-          >
-            {isAutoPlaying ? (
-              <FaPause className="w-4 h-4" />
-            ) : (
-              <FaPlay className="w-4 h-4" />
-            )}
-          </button>
+            {/* Auto-play Toggle Button */}
+            <button
+              onClick={toggleAutoPlay}
+              className="absolute right-2 sm:right-4 top-2 sm:top-4 bg-white/90 hover:bg-white text-gray-800 p-2 sm:p-3 rounded-full shadow-lg z-10 transition-all touch-manipulation"
+            >
+              {isAutoPlaying ? (
+                <FaPause className="w-4 h-4" />
+              ) : (
+                <FaPlay className="w-4 h-4" />
+              )}
+            </button>
 
-          {/* Slide Indicators */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 overflow-x-auto max-w-full px-4">
-            {achievements.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setIsAutoPlaying(false);
-                }}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  index === currentIndex ? 'bg-primary-600 w-6' : 'bg-gray-400'
-                }`}
-              />
-            ))}
+            {/* Slide Indicators */}
+            <div className="absolute -bottom-8 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 overflow-x-auto max-w-full px-4">
+              {achievements.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setIsAutoPlaying(false);
+                  }}
+                  className={`w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full transition-all touch-manipulation ${
+                    index === currentIndex ? 'bg-primary-600 w-5 sm:w-6' : 'bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

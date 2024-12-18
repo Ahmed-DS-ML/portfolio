@@ -14,37 +14,82 @@ const ProjectDetail = () => {
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  // Animation variants for page transitions
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 }
+  };
+
   useEffect(() => {
-    const projectsData = JSON.parse(localStorage.getItem("projectsData") || "[]");
-    const allProjects = Object.values(projectsData).flat();
-    const foundProject = allProjects.find((p) => p.id === parseInt(id));
-    
-    if (foundProject) {
-      setProject(foundProject);
-    }
-    setLoading(false);
+    const fetchProject = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const projectsData = JSON.parse(localStorage.getItem("projectsData") || "[]");
+        const allProjects = Object.values(projectsData).flat();
+        const foundProject = allProjects.find((p) => p.id === parseInt(id));
+        
+        if (!foundProject) {
+          throw new Error("Project not found");
+        }
+        
+        setProject(foundProject);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
   }, [id]);
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <motion.div 
+        className="min-h-screen flex items-center justify-center"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+      >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
+      </motion.div>
     );
   }
 
-  if (!project) {
+  if (error || !project) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <BackToProjects />
-        <div className="text-center mt-4">
+      <motion.div 
+        className="min-h-screen flex flex-col items-center justify-center p-4"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <button 
+          onClick={handleBack}
+          className="flex items-center gap-2 text-primary-600 hover:text-primary-700 transition-colors mb-4"
+        >
+          <FaArrowLeft /> Back to Projects
+        </button>
+        <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
-            Project Not Found
+            {error || "Project Not Found"}
           </h1>
+          <p className="text-gray-600">
+            The project you&apos;re looking for doesn&apos;t seem to exist.
+          </p>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -80,12 +125,14 @@ if __name__ == "__main__":
     print("Training complete!")
   `;
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+      className="min-h-screen bg-gray-50"
+    >
       <Navbar />
       
       {/* Back Button */}
@@ -208,7 +255,7 @@ if __name__ == "__main__":
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 

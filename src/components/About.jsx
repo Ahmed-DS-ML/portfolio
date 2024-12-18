@@ -65,20 +65,20 @@ const About = () => {
   };
 
   const education = [
+    // {
+    //   degree: "Pre-master's in Data science",
+    //   institution:
+    //     "Faculty of Graduate Studies for Statistical Research – Cairo University",
+    //   location: "Egypt",
+    //   period: "09/2023 - Present",
+    //   details: "Pre-master in Academic Data Science",
+    // },
     {
-      degree: "Pre-master's in data science",
+      degree: "Diploma in Academic Data Science",
       institution:
         "Faculty of Graduate Studies for Statistical Research – Cairo University",
       location: "Egypt",
-      period: "09/2023 - Present",
-      details: "Pre-master in Academic Data Science",
-    },
-    {
-      degree: "Diploma in Data Science",
-      institution:
-        "Faculty of Graduate Studies for Statistical Research – Cairo University",
-      location: "Egypt",
-      period: "09/2021 – 5/2023",
+      period: "01/2023 – Present",
       details: "Diploma in Academic Data Science",
     },
     {

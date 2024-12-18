@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { FaGithub } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { FaGithub, FaIndustry, FaBrain, FaChartBar, FaDatabase, FaLanguage } from "react-icons/fa";
 import { BiLinkExternal } from "react-icons/bi";
 
 // Project categories with descriptions
@@ -9,27 +9,27 @@ const CATEGORIES = {
   AUTOMATION: {
     name: "Automation & Industrial",
     description: "Industrial automation solutions and smart manufacturing systems",
-    icon: FaGithub,
+    icon: FaIndustry,
   },
   ML_AI: {
     name: "Machine Learning & AI",
     description: "Advanced ML models and AI applications",
-    icon: FaGithub,
+    icon: FaBrain,
   },
   BUSINESS: {
     name: "Business Applications",
     description: "Enterprise solutions and business intelligence tools",
-    icon: FaGithub,
+    icon: FaChartBar,
   },
   DATA_SCIENCE: {
     name: "Data Science & Analytics",
     description: "Data analysis and predictive modeling",
-    icon: FaGithub,
+    icon: FaDatabase,
   },
   NLP: {
     name: "Natural Language Processing",
     description: "Text analysis and language processing systems",
-    icon: FaGithub,
+    icon: FaLanguage,
   },
 };
 
@@ -40,14 +40,31 @@ const getCategoryByName = (categoryName) =>
 // Project Card Component with enhanced hover effects
 const ProjectCard = ({ project }) => {
   const category = getCategoryByName(project.category);
+  const navigate = useNavigate();
 
   if (!category) {
     return null;
   }
 
+  const handleProjectClick = () => {
+    // Store project data in localStorage before navigation
+    const existingData = JSON.parse(localStorage.getItem("projectsData") || "{}");
+    localStorage.setItem("projectsData", JSON.stringify({
+      ...existingData,
+      [project.id]: project
+    }));
+    navigate(`/project/${project.id}`);
+  };
+
   return (
     <motion.div
       className="relative rounded-xl overflow-hidden shadow-lg bg-white group cursor-pointer"
+      whileHover={{ y: -5 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={handleProjectClick}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
     >
       <Link to={`/project/${project.id}`} className="block">
         <div className="relative h-48 overflow-hidden">
