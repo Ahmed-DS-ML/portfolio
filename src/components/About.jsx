@@ -65,7 +65,6 @@ const About = () => {
   };
 
   const education = [
-<<<<<<< HEAD
     {
       degree: "Pre-master's in Data science",
       institution:
@@ -74,19 +73,12 @@ const About = () => {
       period: "09/2024 - Present",
       details: "Pre-master in Academic Data Science",
     },
-=======
-?
->>>>>>> 1d85b6c95daa13bd42f434f9b558cd26759ba997
     {
       degree: "Diploma in Academic Data Science",
       institution:
         "Faculty of Graduate Studies for Statistical Research – Cairo University",
       location: "Egypt",
-<<<<<<< HEAD
       period: "09/2022 – 6/2024",
-=======
-      period: "09/2024 – predent",
->>>>>>> 1d85b6c95daa13bd42f434f9b558cd26759ba997
       details: "Diploma in Academic Data Science",
     },
     {
