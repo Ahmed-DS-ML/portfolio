@@ -65,14 +65,14 @@ const About = () => {
   };
 
   const education = [
-    // {
-    //   degree: "Pre-master's in Data science",
-    //   institution:
-    //     "Faculty of Graduate Studies for Statistical Research – Cairo University",
-    //   location: "Egypt",
-    //   period: "09/2024 - Present",
-    //   details: "Pre-master in Academic Data Science",
-    // },
+    {
+      degree: "Pre-master's in Data science",
+      institution:
+        "Faculty of Graduate Studies for Statistical Research – Cairo University",
+      location: "Egypt",
+      period: "09/2024 - Present",
+      details: "Pre-master in Academic Data Science",
+    },
     {
       degree: "Diploma in Academic Data Science",
       institution:
@@ -186,6 +186,91 @@ const About = () => {
                   </ul>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Work Experience Section */}
+          <div className="mb-16">
+            <h3 className="section-subtitle text-center mb-8">Work Experience</h3>
+            <div className="space-y-8">
+              {/* ELSHORBAGY FOR PLASTICS */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="font-semibold text-primary-600">
+                  ANALYTICS AND AUTOMATION SECTION HEAD
+                </h4>
+                <p className="text-secondary-600">ELSHORBAGY FOR PLASTICS</p>
+                <p className="text-secondary-500">
+                  10th of Ramadan, Egypt | 01/08/2023 – CURRENT
+                </p>
+                <div className="mt-4">
+                  <h5 className="font-medium text-secondary-700 mb-2">Key Responsibilities:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Automation System Development – Designed and implemented an automated injection machine system, reducing downtime and boosting production efficiency (patent-pending).</li>
+                    <li>ERP Integration & Real-Time Monitoring – Integrated real-time data solutions with ERP systems, improving decision-making across production, finance, and inventory.</li>
+                    <li>Cross-Functional Leadership – Collaborated with sales, production, HR, and finance teams to deliver actionable insights and enhance business outcomes.</li>
+                    <li>Project Management – Led large-scale analytics and automation projects, aligning with strategic company objectives.</li>
+                    <li>Continuous Improvement – Leveraged data and automation technologies to optimize operations, drive innovation, and enhance performance.</li>
+                  </ul>
+                  
+                  <h5 className="font-medium text-secondary-700 mb-2 mt-4">Achievements & Impact:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Innovation & System Development – Developed the Cycle Time Monitoring System, improving efficiency through real-time analytics and ERP integration (Creative Solution, Turkey).</li>
+                    <li>Leadership & Strategic Growth – Headed the Data Science & Automation Department, aligning AI-driven solutions across business units to reduce downtime and improve performance.</li>
+                    <li>Process Optimization – Applied data science to streamline production cycles, minimize waste, and enhance operational efficiency through predictive maintenance models.</li>
+                    <li>Industry Recognition – Recognized for leadership, problem-solving, and innovation, consistently delivering impactful, data-driven solutions for business growth.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* B.TECH */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="font-semibold text-primary-600">
+                  DISTRIBUTION SUPERVISOR
+                </h4>
+                <p className="text-secondary-600">B.TECH</p>
+                <p className="text-secondary-500">
+                  10th of Ramadan, Egypt | 01/08/2020 – 06/02/2023
+                </p>
+                <div className="mt-4">
+                  <h5 className="font-medium text-secondary-700 mb-2">Key Responsibilities:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Standard Part Counting System Development – Designed an optimized system for tracking rental car inventory, improving supplier communication and real-time cost adjustments.</li>
+                    <li>Cross-Departmental Coordination – Streamlined collaboration between procurement, finance, and logistics teams to enhance operational efficiency.</li>
+                    <li>Inventory Management Optimization – Ensured seamless inventory tracking, reducing delays and improving customer delivery speed.</li>
+                  </ul>
+                  
+                  <h5 className="font-medium text-secondary-700 mb-2 mt-4">Achievements & Impact:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Operational Efficiency – Implemented a standardized counting system, accelerating supplier interactions and cost adjustments.</li>
+                    <li>Enhanced Coordination – Strengthened communication across departments, aligning inventory management with business goals.</li>
+                    <li>Improved Customer Delivery – Optimized processes to ensure faster and more reliable rental car availability.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* MIRACO-CARRIER */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h4 className="font-semibold text-primary-600">
+                  SALES ENGINEER
+                </h4>
+                <p className="text-secondary-600">MIRACO-CARRIER</p>
+                <p className="text-secondary-500">
+                  6th of October City, Egypt | 01/08/2019 – 30/06/2020
+                </p>
+                <div className="mt-4">
+                  <h5 className="font-medium text-secondary-700 mb-2">Key Responsibilities:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Client Relationship Management – Built and maintained strong customer relationships, fostering loyalty and repeat business.</li>
+                    <li>Strategic Sales & Communication – Applied effective sales techniques to drive revenue growth and meet customer needs.</li>
+                  </ul>
+                  
+                  <h5 className="font-medium text-secondary-700 mb-2 mt-4">Achievements & Impact:</h5>
+                  <ul className="list-disc list-inside space-y-2 text-secondary-600 ml-2">
+                    <li>Exceeded Sales Targets – Consistently surpassed monthly and annual sales goals, directly boosting company revenue.</li>
+                    <li>Enhanced Customer Retention – Strengthened client relationships, leading to increased repeat business and long-term partnerships.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
 

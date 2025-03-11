@@ -10,6 +10,24 @@ const Achievements = () => {
 
   const achievements = [
     {
+      title: "Google Professional Certification",
+      description: "Completed advanced certification in Data Analytics and Machine Learning, demonstrating expertise in data-driven decision making and AI solutions.",
+      type: "image",
+      media: "/images/achievements/google.jpg"
+    },
+    {
+      title: "Production Dashboard",
+      description: "A real-time manufacturing dashboard displaying key performance metrics with circular gauges showing OEE (Overall Equipment Effectiveness) at 6.58% and 92.66%. The interface features Arabic text and includes production status indicators, cycle times, and efficiency measurements for comprehensive production monitoring.",
+      type: "image",
+      media: "/images/achievements/Production-Dashboard.jpg"
+    },
+    {
+      title: "B.TECH Leadership",
+      description: "Led successful distribution and logistics optimization initiatives at B.TECH, one of Egypt's largest electronics retailers, resulting in significant improvements in operational efficiency.",
+      type: "image",
+      media: "/images/achievements/btech.jpg"
+    },
+    {
       title: "Patent 1-1",
       description: "Official patent documentation showcasing innovative manufacturing process improvements.",
       type: "image",
@@ -50,12 +68,6 @@ const Achievements = () => {
       description: "Chief Engineer specializing in the innovation and implementation of IML robotics projects. Leading the development and execution of advanced robotic solutions for industrial manufacturing.",
       type: "image",
       media: "/images/achievements/Eng-Mohamed Saleh.jpg"
-    },
-    {
-      title: "Production Dashboard",
-      description: "A real-time manufacturing dashboard displaying key performance metrics with circular gauges showing OEE (Overall Equipment Effectiveness) at 6.58% and 92.66%. The interface features Arabic text and includes production status indicators, cycle times, and efficiency measurements for comprehensive production monitoring.",
-      type: "image",
-      media: "/images/achievements/Production-Dashboard.jpg"
     },
     {
       title: "Cycle Time Report",

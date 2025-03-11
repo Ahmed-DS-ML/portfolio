@@ -2,6 +2,7 @@ const CACHE_NAME = 'portfolio-cache-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/favicon.png',
   '/assets/index.css',
@@ -75,7 +76,7 @@ self.addEventListener('fetch', (event) => {
             }
             // If it's a navigation request, return the offline page
             if (event.request.mode === 'navigate') {
-              return caches.match('/');
+              return caches.match('/offline.html');
             }
             return new Response('Network error happened', {
               status: 408,
