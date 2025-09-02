@@ -16,6 +16,7 @@ const About = () => {
       "Power BI",
       "Looker",
       "Excel",
+      "IoT",
     ],
     "Data Skills": [
       "Data Collection",
@@ -26,11 +27,20 @@ const About = () => {
       "HTML",
     ],
     "Machine Learning": ["KNN", "Decision Trees (DT)", "K-means","Logistic Regression","Support Vector Machines (SVM)","Random Forest","Neural Networks","Reinforcement Learning"],
-    "Deep Learning": ["TensorFlow", "PyTorch", "Keras", "OpenCV", ],
+    "Deep Learning": ["TensorFlow", "PyTorch", "Keras", "OpenCV", "Computer Vision", "Neural Networks"],
+    "AI & Computer Vision": [
+      "Computer Vision",
+      "Image Processing",
+      "Object Detection",
+      "Image Segmentation",
+      "AI Agentic Systems",
+      "Automation Frameworks",
+    ],
     "Additional Skills": [
       "Data Visualization",
       "Database Management",
-      "Operations Research",      "Communication Skills",
+      "Operations Research",
+      "Communication Skills",
       "English",
     ],
   };
@@ -55,12 +65,17 @@ const About = () => {
     FRAMEWORKS: {
       title: "Frameworks & Libraries",
       icon: FaCode,
-      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy"],
+      skills: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy", "OpenCV", "Pillow"],
+    },
+    COMPUTER_VISION: {
+      title: "Computer Vision",
+      icon: FaBrain,
+      skills: ["Image Processing", "Object Detection", "Image Segmentation", "Feature Extraction", "CNN Architectures"],
     },
     INFRASTRUCTURE: {
       title: "Infrastructure",
       icon: FaServer,
-      skills: ["Docker", "Kubernetes", "AWS", "Azure", "GCP"],
+      skills: ["Docker", "Kubernetes", "AWS", "Azure", "GCP", "IoT"],
     },
   };
 
@@ -115,15 +130,20 @@ const About = () => {
               I am a data science professional with extensive experience in data
               analysis, machine learning, and automation. Skilled in Python,
               SQL, Tableau, Power BI, and Looker, I leverage data to drive
-              business decisions by providing actionable insights.
+              business decisions by provide actionable insights.
             </p>
             <p className="mb-4">
-              As Head of Analytics and Automation at Elshorbagy Plastic Group, I
-              lead the development of automated systems and generate reports
+              With proven leadership experience in analytics and automation, I
+              have successfully led the development of automated systems and generated reports
               across sales, production, HR, finance, and inventory. Notable
               achievements include developing a patent-pending automation system
               for injection machines and integrating real-time monitoring
               systems with ERP solutions.
+            </p>
+            <p className="mb-4">
+              As a lifelong learner in AI and Computer Vision, I am actively advancing towards senior computer vision engineering roles. 
+              I am passionate about advancing in computer vision, deep learning, and AI automation technologies to create innovative solutions 
+              that drive the future of intelligent systems and transform industries through intelligent automation.
             </p>
             <p>
               I am a collaborative team player, focused on fostering positive
@@ -131,6 +151,89 @@ const About = () => {
               balancing innovation with efficiency ensures high-quality results
               in fast-paced, demanding environments.
             </p>
+          </div>
+
+          {/* Current Focus & Future Goals */}
+          <div className="bg-white p-8 rounded-2xl mb-16 shadow-lg border border-gray-100">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-800 mb-3">Current Focus & Future Goals</h3>
+              <div className="w-20 h-1 bg-primary-500 mx-auto rounded-full mb-4"></div>
+              <p className="text-gray-600 max-w-xl mx-auto">Building expertise in AI automation and advancing in computer vision to create smarter solutions</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Current Studies */}
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <span className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center mr-3 text-white text-sm">
+                    🚀
+                  </span>
+                  Currently Studying
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">AI Agentic Automation</p>
+                      <p className="text-sm text-gray-600">Building expertise in autonomous AI systems</p>
+                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">In Progress</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Computer Vision</p>
+                      <p className="text-sm text-gray-600">Deep learning for image recognition</p>
+                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">Advanced</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-primary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Advanced ML Algorithms</p>
+                      <p className="text-sm text-gray-600">State-of-the-art machine learning</p>
+                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">Expert</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Career Goals */}
+              <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                  <span className="w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center mr-3 text-white text-sm">
+                    🎯
+                  </span>
+                  Career Goals
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-secondary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Senior Computer Vision Engineer</p>
+                      <p className="text-sm text-gray-600">Lead computer vision projects</p>
+                      <span className="text-xs bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full mt-1 inline-block">Target</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-secondary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">AI Automation Specialist</p>
+                      <p className="text-sm text-gray-600">Design intelligent automation systems</p>
+                      <span className="text-xs bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full mt-1 inline-block">Goal</span>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="w-2 h-2 bg-secondary-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <div>
+                      <p className="font-medium text-gray-800 mb-1">Research & Innovation</p>
+                      <p className="text-sm text-gray-600">Advance AI and computer vision</p>
+                      <span className="text-xs bg-secondary-100 text-secondary-700 px-2 py-1 rounded-full mt-1 inline-block">Vision</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Skills Section */}
@@ -193,12 +296,12 @@ const About = () => {
           <div className="mb-16">
             <h3 className="section-subtitle text-center mb-8">Work Experience</h3>
             <div className="space-y-8">
-              {/* ELSHORBAGY FOR PLASTICS */}
+              {/* Analytics and Automation Leadership */}
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h4 className="font-semibold text-primary-600">
                   ANALYTICS AND AUTOMATION SECTION HEAD
                 </h4>
-                <p className="text-secondary-600">ELSHORBAGY FOR PLASTICS</p>
+                <p className="text-secondary-600">Manufacturing Industry</p>
                 <p className="text-secondary-500">
                   10th of Ramadan, Egypt | 01/08/2023 – CURRENT
                 </p>

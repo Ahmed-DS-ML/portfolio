@@ -139,6 +139,8 @@ const Hero = () => {
                   2000,
                   "ML Engineer",
                   2000,
+                  "AI Agentic Automation ",
+                  2000,
                   "Analytics & Automation Lead",
                   2000,
                 ]}
@@ -148,9 +150,9 @@ const Hero = () => {
               />
             </div>
             <p className="text-lg text-secondary-600 mb-8 max-w-2xl">
-              Transforming data into actionable insights and building
-              intelligent automation solutions. Currently leading analytics and
-              automation initiatives at Elshorbagy Plastic Group.
+              Lifelong Learner in Data Science & Automation, seeking to become a senior computer vision engineer. 
+              Transforming data into actionable insights and building intelligent automation solutions. 
+              With a proven track record of developing innovative AI-driven solutions.
             </p>
             <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
               <motion.a

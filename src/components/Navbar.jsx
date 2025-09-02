@@ -136,6 +136,7 @@ const Navbar = () => {
             {/* Resume Button */}
             <a
               href="/resume.pdf"
+              download="Ahmed_Ashraf_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
@@ -203,6 +204,7 @@ const Navbar = () => {
               <div className="px-3">
                 <a
                   href="/resume.pdf"
+                  download="Ahmed_Ashraf_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"
