@@ -10,11 +10,18 @@
   force = true # Important for SPA routing
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
+  NIXPACKS_NIX_VERSION = "2.19.3"
 
 [dev]
   command = "npm run dev"
   framework = "vite"
+
+# Use latest build image
+[build]
+  command = "npm run build"
+  publish = "dist"
+  image = "ubuntu:22.04"
 
 [[headers]]
   for = "/*"
