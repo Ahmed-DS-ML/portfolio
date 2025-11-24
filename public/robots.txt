@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portfolio.ahmed-n8n.cfd/sitemap.xml
