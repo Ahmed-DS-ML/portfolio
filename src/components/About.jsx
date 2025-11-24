@@ -176,7 +176,7 @@ const About = () => {
                     <div>
                       <p className="font-medium text-gray-800 mb-1">AI Agentic Automation</p>
                       <p className="text-sm text-gray-600">Building expertise in autonomous AI systems</p>
-                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">In Progress</span>
+                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">Expert</span>
                     </div>
                   </div>
                   <div className="flex items-start">
@@ -184,7 +184,7 @@ const About = () => {
                     <div>
                       <p className="font-medium text-gray-800 mb-1">Computer Vision</p>
                       <p className="text-sm text-gray-600">Deep learning for image recognition</p>
-                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">Advanced</span>
+                      <span className="text-xs bg-primary-100 text-primary-700 px-2 py-1 rounded-full mt-1 inline-block">In Progress</span>
                     </div>
                   </div>
                   <div className="flex items-start">
