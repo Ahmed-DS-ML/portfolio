@@ -1,9 +1,12 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  image = "ubuntu:22.04"
+  # Use Ubuntu Noble 24.04 as recommended — Focal (20.04) is deprecated and will be removed.
+  # Netlify recognizes these image keys: "ubuntu:20.04" (focal), "ubuntu:22.04" (jammy), "ubuntu:24.04" (noble).
+  image = "ubuntu:24.04"
 
 [build.environment]
+  # Keep Node 20 LTS (works on ubuntu:24.04) — change if you need Node 22 or newer.
   NODE_VERSION = "20"
   NIXPACKS_NIX_VERSION = "2.19.3"
 
