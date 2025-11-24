@@ -54,11 +54,17 @@ const AchievementsCarousel = ({ mediaContent }) => {
           className="relative w-full h-full cursor-pointer group"
           onClick={() => handleVideoClick(videoUrl, item.title)}
         >
-          <img
-            src={thumbnailUrl}
-            alt={item.title}
-            className="w-full h-full object-cover"
-          />
+          <picture>
+            <source type="image/avif" srcSet={thumbnailUrl.replace(/\.(jpe?g|png)$/i, '.avif')} />
+            <source type="image/webp" srcSet={thumbnailUrl.replace(/\.(jpe?g|png)$/i, '.webp')} />
+            <img
+              src={thumbnailUrl}
+              alt={item.title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <svg 
               className="w-20 h-20 text-white"
@@ -78,11 +84,17 @@ const AchievementsCarousel = ({ mediaContent }) => {
         href={item.url}
         className="block w-full h-full"
       >
-        <img
-          src={item.url}
-          alt={item.title}
-          className="w-full h-full object-contain"
-        />
+        <picture>
+          <source type="image/avif" srcSet={item.url.replace(/\.(jpe?g|png)$/i, '.avif')} />
+          <source type="image/webp" srcSet={item.url.replace(/\.(jpe?g|png)$/i, '.webp')} />
+          <img
+            src={item.url}
+            alt={item.title}
+            className="w-full h-full object-contain"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       </a>
     );
   };

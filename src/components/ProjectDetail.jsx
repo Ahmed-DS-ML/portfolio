@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import JupyterCodeDisplay from "./JupyterCodeDisplay";
-import AIModel from "./AIModel";
+const JupyterCodeDisplay = React.lazy(() => import('./JupyterCodeDisplay'));
+const AIModel = React.lazy(() => import('./AIModel'));
 import BackToProjects from "./BackToProjects";
 import Navbar from './Navbar';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -160,12 +160,18 @@ if __name__ == "__main__":
         {/* Project Hero Section */}
         <div className="project-container">
           {project.image && (
-            <img
-              src={project.image}
-              alt={project.title}
-              className={`project-image ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-              onLoad={() => setImageLoaded(true)}
-            />
+            <picture>
+              <source type="image/avif" srcSet={project.image.replace(/\.(jpe?g|png)$/i, '.avif')} />
+              <source type="image/webp" srcSet={project.image.replace(/\.(jpe?g|png)$/i, '.webp')} />
+              <img
+                src={project.image}
+                alt={project.title}
+                className={`project-image ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setImageLoaded(true)}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           )}
           <div className="text-overlay">
             <div className="project-tags">
@@ -244,11 +250,15 @@ if __name__ == "__main__":
                 </TabPanel>
 
                 <TabPanel>
-                  <JupyterCodeDisplay code={sampleCode} />
+                  <React.Suspense fallback={<div className="p-4">Loading code viewer…</div>}>
+                    <JupyterCodeDisplay code={sampleCode} />
+                  </React.Suspense>
                 </TabPanel>
 
                 <TabPanel>
-                  <AIModel />
+                  <React.Suspense fallback={<div className="p-4">Loading AI playground…</div>}>
+                    <AIModel />
+                  </React.Suspense>
                 </TabPanel>
               </Tabs>
             </div>

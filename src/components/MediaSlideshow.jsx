@@ -91,11 +91,17 @@ const MediaSlideshow = ({ mediaContent, interval = 6000, className = '' }) => {
               className="relative h-full overflow-hidden rounded-xl group"
             >
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <img
-                src={item.url}
-                alt={item.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+              <picture>
+                <source type="image/avif" srcSet={item.url.replace(/\.(jpe?g|png)$/i, '.avif')} />
+                <source type="image/webp" srcSet={item.url.replace(/\.(jpe?g|png)$/i, '.webp')} />
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

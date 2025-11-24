@@ -13,11 +13,14 @@ export default defineConfig({
         drop_debugger: true
       }
     },
+    sourcemap: true,
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['framer-motion', 'react-tabs']
+          ui: ['framer-motion', 'react-tabs', 'react-icons'],
+          pdf: ['react-pdf', 'pdfjs-dist']
         }
       }
     }

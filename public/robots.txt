@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap (uncomment and update if you create a sitemap)
+# Sitemap: https://ahmed-ashraf-ds.netlify.app/sitemap.xml

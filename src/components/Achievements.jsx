@@ -158,11 +158,17 @@ const Achievements = () => {
               >
                 <div className="relative w-full h-full">
                   {achievements[currentIndex].type === 'image' ? (
-                    <img
-                      src={achievements[currentIndex].media}
-                      alt={achievements[currentIndex].title}
-                      className="w-full h-full object-contain"
-                    />
+                    <picture>
+                      <source type="image/avif" srcSet={achievements[currentIndex].media.replace(/\.(jpe?g|png)$/i, '.avif')} />
+                      <source type="image/webp" srcSet={achievements[currentIndex].media.replace(/\.(jpe?g|png)$/i, '.webp')} />
+                      <img
+                        src={achievements[currentIndex].media}
+                        alt={achievements[currentIndex].title}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                   ) : (
                     <div className="w-full h-full">
                       <iframe
