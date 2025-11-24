@@ -69,20 +69,15 @@ const Hero = () => {
                   ease: "easeInOut"
                 }}
               />
-              <picture>
-                <source type="image/avif" srcSet="/images/profile.avif" />
-                <source type="image/webp" srcSet="/images/profile.webp" />
-                <motion.img
-                  src="/images/profile.jpg"
-                  alt="Ahmed Ashraf"
-                  className="absolute inset-0 w-full h-full object-cover rounded-full border-4 border-white shadow-2xl filter contrast-105 brightness-105"
-                  style={{ boxShadow: "0 0 25px rgba(0, 100, 150, 0.3)" }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
+              <motion.img
+                src="/images/profile.jpg"
+                alt="Ahmed Ashraf"
+                className="absolute inset-0 w-full h-full object-cover rounded-full border-4 border-white shadow-2xl filter contrast-105 brightness-105"
+                style={{ boxShadow: "0 0 25px rgba(0, 100, 150, 0.3)" }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                loading="lazy"
+              />
               <motion.div
                 className="absolute -bottom-2 -right-2 bg-primary-600 text-white p-2 rounded-full shadow-lg z-10"
                 initial={{ scale: 0 }}

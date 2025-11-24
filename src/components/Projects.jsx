@@ -68,23 +68,11 @@ const ProjectCard = ({ project }) => {
     >
       <Link to={`/project/${project.id}`} className="block">
         <div className="relative h-48 overflow-hidden">
-          <picture>
-            <source
-              type="image/avif"
-              srcSet={project.image.replace(/\.(jpe?g|png)$/i, '.avif')}
-            />
-            <source
-              type="image/webp"
-              srcSet={project.image.replace(/\.(jpe?g|png)$/i, '.webp')}
-            />
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
-            />
-          </picture>
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
         

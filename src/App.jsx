@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -8,8 +8,8 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
-const ProjectDetail = React.lazy(() => import('./components/ProjectDetail'));
-const AIModel = React.lazy(() => import('./components/AIModel'));
+import ProjectDetail from './components/ProjectDetail';
+import AIModel from './components/AIModel';
 import Achievements from './components/Achievements';
 
 // Loading fallback
@@ -41,19 +41,11 @@ const App = () => {
           <Route path="/" element={<MainContent />} />
           <Route
             path="/project/:id"
-            element={
-              <React.Suspense fallback={<LoadingSpinner />}>
-                <ProjectDetail />
-              </React.Suspense>
-            }
+            element={<ProjectDetail />}
           />
           <Route
             path="/ai-model"
-            element={
-              <React.Suspense fallback={<LoadingSpinner />}>
-                <AIModel />
-              </React.Suspense>
-            }
+            element={<AIModel />}
           />
           <Route
             path="*"

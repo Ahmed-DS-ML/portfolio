@@ -10,26 +10,7 @@
   NODE_VERSION = "20"
   NIXPACKS_NIX_VERSION = "2.19.3"
 
-# Ensure critical static files are served directly (do not rewrite them to index.html)
-[[redirects]]
-  from = "/robots.txt"
-  to = "/robots.txt"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/sw.js"
-  to = "/sw.js"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/manifest.json"
-  to = "/manifest.json"
-  status = 200
-  force = false
-
-# Handle client-side routing (catch-all) — keep after the above rules so the static files are preserved
+# Handle client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -70,17 +70,11 @@ const MediaCarousel = () => {
               <div className="relative h-full w-full cursor-pointer group"
                    onClick={() => openModal(item)}>
                 {item.type === 'image' ? (
-                  <picture>
-                    <source type="image/avif" srcSet={item.src.replace(/\.(jpe?g|png)$/i, '.avif')} />
-                    <source type="image/webp" srcSet={item.src.replace(/\.(jpe?g|png)$/i, '.webp')} />
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-contain"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </picture>
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="w-full h-full object-contain"
+                  />
                 ) : (
                   <iframe
                     src={item.src}
@@ -156,18 +150,12 @@ const MediaCarousel = () => {
                         {selectedMedia.title}
                       </Dialog.Title>
                       <div className="aspect-w-16 aspect-h-9">
-                          {selectedMedia.type === 'image' ? (
-                          <picture>
-                            <source type="image/avif" srcSet={selectedMedia.src.replace(/\.(jpe?g|png)$/i, '.avif')} />
-                            <source type="image/webp" srcSet={selectedMedia.src.replace(/\.(jpe?g|png)$/i, '.webp')} />
-                            <img
-                              src={selectedMedia.src}
-                              alt={selectedMedia.title}
-                              className="w-full h-full object-contain"
-                              loading="lazy"
-                              decoding="async"
-                            />
-                          </picture>
+                        {selectedMedia.type === 'image' ? (
+                          <img
+                            src={selectedMedia.src}
+                            alt={selectedMedia.title}
+                            className="w-full h-full object-contain"
+                          />
                         ) : (
                           <iframe
                             src={selectedMedia.src}
