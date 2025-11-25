@@ -306,6 +306,26 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-20 bg-gray-50">
+      {/* JSON-LD: list of projects to help search engines understand portfolio content */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": Object.values(projectsData)
+              .flat()
+              .map((p) => ({
+                "@type": "CreativeWork",
+                "@id": `https://portfolio.ahmed-n8n.cfd/project/${p.id}`,
+                name: p.title,
+                description: p.description,
+                image: p.image ? `https://portfolio.ahmed-n8n.cfd${p.image}` : undefined,
+                url: `https://portfolio.ahmed-n8n.cfd/project/${p.id}`,
+                keywords: p.technologies ? p.technologies.join(", ") : undefined,
+              })),
+          }),
+        }}
+      />
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

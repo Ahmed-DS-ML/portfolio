@@ -126,6 +126,24 @@ if __name__ == "__main__":
   `;
 
   return (
+    <>
+      {/* JSON-LD for the specific project to improve search engine understanding */}
+      {project && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CreativeWork",
+              name: project.title,
+              description: project.longDescription || project.description,
+              image: project.image ? `https://portfolio.ahmed-n8n.cfd${project.image}` : undefined,
+              url: `https://portfolio.ahmed-n8n.cfd/project/${project.id}`,
+              keywords: project.technologies ? project.technologies.join(", ") : undefined,
+            }),
+          }}
+        />
+      )}
     <motion.div
       initial="initial"
       animate="animate"
@@ -256,6 +274,7 @@ if __name__ == "__main__":
         </div>
       </motion.div>
     </motion.div>
+    </>
   );
 };
 
