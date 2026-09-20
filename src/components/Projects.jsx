@@ -1,408 +1,175 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import { FaGithub, FaIndustry, FaBrain, FaChartBar, FaDatabase, FaLanguage } from "react-icons/fa";
-import { BiLinkExternal } from "react-icons/bi";
+import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Reveal } from '../hooks/useReveal.jsx';
+import { projects } from '../data/projects';
+import { pick } from '../i18n/pick';
+import { useI18n } from '../i18n/I18nProvider.jsx';
 
-// Project categories with descriptions
-const CATEGORIES = {
-  AUTOMATION: {
-    name: "Automation & Industrial",
-    description: "Industrial automation solutions and smart manufacturing systems",
-    icon: FaIndustry,
-  },
-  ML_AI: {
-    name: "Machine Learning & AI",
-    description: "Advanced ML models and AI applications",
-    icon: FaBrain,
-  },
-  BUSINESS: {
-    name: "Business Applications",
-    description: "Enterprise solutions and business intelligence tools",
-    icon: FaChartBar,
-  },
-  DATA_SCIENCE: {
-    name: "Data Science & Analytics",
-    description: "Data analysis and predictive modeling",
-    icon: FaDatabase,
-  },
-  NLP: {
-    name: "Natural Language Processing",
-    description: "Text analysis and language processing systems",
-    icon: FaLanguage,
-  },
-};
+const FILTERS = [
+  { id: 'all', labelKey: 'projects.filterAll' },
+  { id: 'product', labelKey: 'projects.filterProduct' },
+  { id: 'agentic', labelKey: 'projects.filterAgentic' },
+  { id: 'industrial', labelKey: 'projects.filterIndustrial' },
+];
 
-// Get category details by name
-const getCategoryByName = (categoryName) =>
-  Object.values(CATEGORIES).find((cat) => cat.name === categoryName);
+const JourneyDiagram = ({ steps, lang, label }) => (
+  <div className="flex aspect-[4/3] flex-col justify-center bg-os-code p-6">
+    <p className="font-mono text-[10px] uppercase tracking-wider text-accent-yellow">{label}</p>
+    <ol className="mt-4 space-y-3">
+      {steps.map((step, i) => (
+        <li key={pick(step, lang)} className="flex items-center gap-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent-yellow/40 font-mono text-xs text-accent-yellow">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span className="font-display text-sm text-os-text">{pick(step, lang)}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+);
 
-// Project Card Component with enhanced hover effects
-const ProjectCard = ({ project }) => {
-  const category = getCategoryByName(project.category);
-  const navigate = useNavigate();
-
-  if (!category) {
-    return null;
+const ProjectMedia = ({ project, lang, journeyLabel }) => {
+  if (project.journeyOnly || !project.image) {
+    return <JourneyDiagram steps={project.architectureFlow} lang={lang} label={journeyLabel} />;
   }
-
-  const handleProjectClick = () => {
-    // Store project data in localStorage before navigation
-    const existingData = JSON.parse(localStorage.getItem("projectsData") || "{}");
-    localStorage.setItem("projectsData", JSON.stringify({
-      ...existingData,
-      [project.id]: project
-    }));
-    navigate(`/project/${project.id}`);
-  };
-
   return (
-    <motion.div
-      className="relative rounded-xl overflow-hidden shadow-lg bg-white group cursor-pointer"
-      whileHover={{ y: -5 }}
-      whileTap={{ scale: 0.95 }}
-      onClick={handleProjectClick}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Link to={`/project/${project.id}`} className="block">
-        <div className="relative h-48 overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
-        
-        <div className="p-6">
-          <div className="flex items-center gap-2 mb-3">
-            {React.createElement(category.icon, {
-              className: "text-primary-600 w-5 h-5",
-            })}
-            <span className="text-sm font-medium text-primary-600">
-              {project.category}
-            </span>
-          </div>
-          
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
-            {project.title}
-          </h3>
-          
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-            {project.description}
-          </p>
-
-          <div className="flex items-center gap-3 text-sm text-gray-500">
-            {project.technologies.slice(0, 3).map((tech, index) => (
-              <span
-                key={index}
-                className="px-2 py-1 bg-gray-100 rounded-full text-xs font-medium"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.technologies.length > 3 && (
-              <span className="text-xs text-gray-400">
-                +{project.technologies.length - 3} more
-              </span>
-            )}
-          </div>
-        </div>
-      </Link>
-
-      <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        {project.githubLink && (
-          <a
-            href={project.githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-700 hover:text-primary-600 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <FaGithub className="w-5 h-5" />
-          </a>
-        )}
-        {project.demo && (
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 bg-white/90 backdrop-blur-sm rounded-full text-gray-700 hover:text-primary-600 transition-colors"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <BiLinkExternal className="w-5 h-5" />
-          </a>
-        )}
-      </div>
-    </motion.div>
+    <div className="relative aspect-[4/3] overflow-hidden bg-os-code">
+      <img
+        src={project.image}
+        alt={pick(project.title, lang)}
+        className="h-full w-full object-cover object-top grayscale transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.02] group-hover:grayscale-0"
+        loading="lazy"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-os-bg/85 via-transparent to-transparent" />
+    </div>
   );
 };
 
+const persist = (project) => {
+  let existing = {};
+  try {
+    existing = JSON.parse(localStorage.getItem('projectsData') || '{}') || {};
+  } catch {
+    existing = {};
+  }
+  localStorage.setItem('projectsData', JSON.stringify({ ...existing, [project.id]: project }));
+};
+
+const Card = ({ project, lang, t, featured, localized }) => (
+  <Link
+    to={localized(`/project/${project.id}`)}
+    onClick={() => persist(project)}
+    className={`os-card group block overflow-hidden ${featured ? 'h-full' : ''}`}
+  >
+    <div className="relative">
+      <ProjectMedia project={project} lang={lang} journeyLabel={t('featured.journey')} />
+      <div className="absolute start-4 top-4 z-10 flex flex-wrap gap-2">
+        <span className="rounded-md border border-os-border bg-os-bg/85 px-2 py-1 font-mono text-[11px] text-accent-yellow backdrop-blur">
+          {project.year}
+        </span>
+        {project.demo && (
+          <span className="rounded-md border border-accent-yellow/40 bg-accent-yellow px-2 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-black">
+            {t('featured.live')}
+          </span>
+        )}
+        {pick(project.role, lang) && (
+          <span className="rounded-md border border-os-border bg-os-bg/85 px-2 py-1 font-mono text-[11px] text-os-text backdrop-blur">
+            {pick(project.role, lang)}
+          </span>
+        )}
+      </div>
+    </div>
+    <div className="p-6">
+      <p className="font-mono text-[11px] uppercase tracking-wider text-os-muted">
+        {pick(project.productType, lang)}
+      </p>
+      <h3 className="mt-2 font-display text-xl font-semibold transition group-hover:text-accent-yellow md:text-2xl">
+        {pick(project.title, lang)}
+        {pick(project.subtitle, lang) && (
+          <span className="mt-1 block text-base font-normal text-os-muted">{pick(project.subtitle, lang)}</span>
+        )}
+      </h3>
+      <p className="mt-3 text-sm text-os-muted line-clamp-3">{pick(project.description, lang)}</p>
+      <div className="mt-4 flex items-end justify-between gap-4">
+        <p className="font-mono text-xs text-os-muted">{(project.technologies || []).slice(0, 4).join(' · ')}</p>
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-os-border text-os-muted transition-[color,background-color,border-color] duration-300 ease-out group-hover:border-accent-yellow group-hover:bg-accent-yellow group-hover:text-black">
+          →
+        </span>
+      </div>
+    </div>
+  </Link>
+);
+
 const Projects = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [visibleProjects, setVisibleProjects] = useState(6);
+  const { t, lang, localized } = useI18n();
+  const [filter, setFilter] = useState('all');
+  const featured = useMemo(
+    () => projects.filter((p) => p.featured).sort((a, b) => a.featuredRank - b.featuredRank),
+    []
+  );
+  const rest = useMemo(() => {
+    if (filter === 'all') return projects.filter((p) => !p.featured);
+    return projects.filter((p) => p.filter === filter);
+  }, [filter]);
 
-  // Project data with updated category names
-  const projectsData = {
-    [CATEGORIES.AUTOMATION.name]: [
-      {
-        id: 1,
-        title: "Smart Factory Automation",
-        description: "Developed an IoT-based factory automation system that enables real-time machine monitoring and predictive maintenance. The solution improves operational efficiency and minimizes downtime through actionable insights.",
-        technologies: ["Python", "IoT", "MQTT", "TensorFlow"],
-        image: "/images/factory-automation.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/smart-factory",
-        category: CATEGORIES.AUTOMATION.name,
-      },
-      {
-        id: 2,
-        title: "ERP System Integration",
-        description: "Created a seamless integration of ERP systems with factory devices. The project automates cost accounting, production management, and supports data-driven maintenance decision-making.",
-        technologies: ["ERP", "System Integration", "Data Management"],
-        image: "/images/erp-integration.jpg",
-        category: CATEGORIES.AUTOMATION.name,
-      },
-      {
-        id: 3,
-        title: "CBM System Innovation",
-        description: "Built an SAP-integrated system to automate counting and tracking of modular parts. The project accelerated the distribution planning process for logistics and resource optimization.",
-        technologies: ["SAP", "Automation", "Distribution Planning"],
-        image: "/images/cbm-system.jpg",
-        category: CATEGORIES.AUTOMATION.name,
-      },
-      {
-        id: 4,
-        title: "Norma ERB System Compliance Project",
-        description: "Led the implementation of an optimized distribution system that visualizes customers on maps. This system enhanced speed and accuracy in the company's distribution process.",
-        technologies: [
-          "ERB System",
-          "Geospatial Analysis",
-          "Distribution Optimization",
-        ],
-        image: "/images/norma-erb.jpg",
-        category: CATEGORIES.AUTOMATION.name,
-      },
-    ],
-
-    [CATEGORIES.ML_AI.name]: [
-      {
-        id: 5,
-        title: "Image Classification CNN",
-        description: "Developed a deep learning model leveraging Convolutional Neural Networks (CNNs) to classify images. Achieved high accuracy in predicting object categories across multiple datasets.",
-        technologies: ["Python", "TensorFlow", "Keras", "OpenCV"],
-        image: "/images/image-classification.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/image-classification-cnn",
-        category: CATEGORIES.ML_AI.name,
-      },
-      {
-        id: 6,
-        title: "Anomaly Detection System",
-        description: "Implemented a real-time anomaly detection solution for IoT sensor data. Utilized machine learning algorithms to detect abnormal patterns, ensuring system reliability and safety.",
-        technologies: ["Python", "Scikit-learn", "Kafka", "Docker"],
-        image: "/images/anomaly-detection.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/anomaly-detection",
-        category: CATEGORIES.ML_AI.name,
-      },
-    ],
-
-    [CATEGORIES.NLP.name]: [
-      {
-        id: 7,
-        title: "Movie Reviews Sentiment Analysis",
-        description: "Built an NLP-based sentiment analysis model for classifying movie reviews as positive or negative. Used advanced text pre-processing techniques for accurate predictions.",
-        technologies: ["Python", "NLTK", "Scikit-learn", "TF-IDF"],
-        image: "/images/sentiment-analysis.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/movie-sentiment-analysis",
-        category: CATEGORIES.NLP.name,
-      },
-      {
-        id: 8,
-        title: "Natural Language Processing Pipeline",
-        description: "Created a robust NLP pipeline that combines text classification and named entity recognition (NER) using transformer models and libraries like SpaCy and PyTorch.",
-        technologies: ["Python", "Transformers", "SpaCy", "PyTorch"],
-        image: "/images/nlp-pipeline.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/nlp-pipeline",
-        category: CATEGORIES.NLP.name,
-      },
-    ],
-
-    [CATEGORIES.DATA_SCIENCE.name]: [
-      {
-        id: 9,
-        title: "Bike Sharing Analysis & Prediction",
-        description: "Conducted an analysis of bike-sharing data to uncover usage trends. Built a regression-based model to forecast peak demand times influenced by weather and seasonal data.",
-        technologies: ["Python", "Pandas", "Scikit-learn", "Matplotlib"],
-        image: "/images/bike-sharing.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/bike-sharing-analysis",
-        category: CATEGORIES.DATA_SCIENCE.name,
-      },
-      {
-        id: 10,
-        title: "Customer Segmentation Engine",
-        description: "Applied K-means clustering to segment customers based on behavioral data. The system generates product recommendations and improves personalized marketing strategies.",
-        technologies: ["Python", "K-means", "Pandas", "Scikit-learn"],
-        image: "/images/customer-segmentation.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/customer-segmentation",
-        category: CATEGORIES.DATA_SCIENCE.name,
-      },
-      {
-        id: 11,
-        title: "Stock Price Forecasting",
-        description: "Developed time series models such as ARIMA and Prophet to predict stock prices using historical data. The project helps investors make informed financial decisions.",
-        technologies: ["Python", "Prophet", "ARIMA", "Pandas"],
-        image: "/images/stock-forecast.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/stock-price-forecasting",
-        category: CATEGORIES.DATA_SCIENCE.name,
-      },
-      {
-        id: 12,
-        title: "Time Series Forecasting",
-        description: "Built an advanced forecasting model for predicting energy consumption patterns. Leveraged Prophet and Neural Prophet to produce accurate predictions over time.",
-        technologies: ["Python", "Prophet", "Neural Prophet", "Pandas"],
-        image: "/images/time-series.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/time-series-forecasting",
-        category: CATEGORIES.DATA_SCIENCE.name,
-      },
-    ],
-
-    [CATEGORIES.BUSINESS.name]: [
-      {
-        id: 13,
-        title: "Recommendation Engine",
-        description: "Designed a collaborative filtering recommendation engine for e-commerce platforms. Suggested products to users based on preferences and historical purchase patterns.",
-        technologies: ["Python", "TensorFlow", "Redis", "FastAPI"],
-        image: "/images/recommendation-engine.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/recommendation-engine",
-        category: CATEGORIES.BUSINESS.name,
-      },
-      {
-        id: 14,
-        title: "Product Quality Classification",
-        description: "Built a machine learning system to classify products based on quality parameters. Applied ensemble methods like Random Forest and Deep Learning for high-accuracy predictions.",
-        technologies: [
-          "Python",
-          "Random Forest",
-          "Deep Learning",
-          "Scikit-learn",
-          "TensorFlow",
-        ],
-        image: "/images/quality.jpg",
-        githubLink: "https://github.com/Ahmed-DS-ML/quality-prediction",
-        category: CATEGORIES.BUSINESS.name,
-      },
-    ],
-  };
-
-  const filteredProjects = Object.values(projectsData).flat().filter((project) => {
-    if (!selectedCategory) return true;
-    return project.category === selectedCategory;
-  });
-
-  const loadMoreProjects = () => {
-    setVisibleProjects((prev) => Math.min(prev + 6, filteredProjects.length));
-  };
+  const lead = featured[0];
+  const side = featured.slice(1);
 
   return (
-    <section id="projects" className="py-20 bg-gray-50">
-      {/* JSON-LD: list of projects to help search engines understand portfolio content */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@graph": Object.values(projectsData)
-              .flat()
-              .map((p) => ({
-                "@type": "CreativeWork",
-                "@id": `https://portfolio.ahmed-n8n.cfd/project/${p.id}`,
-                name: p.title,
-                description: p.description,
-                image: p.image ? `https://portfolio.ahmed-n8n.cfd${p.image}` : undefined,
-                url: `https://portfolio.ahmed-n8n.cfd/project/${p.id}`,
-                keywords: p.technologies ? p.technologies.join(", ") : undefined,
-              })),
-          }),
-        }}
-      />
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-bold mb-4">My Projects</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Explore my portfolio of data science and ML engineering projects,
-            showcasing expertise in automation, machine learning, and business applications.
-          </p>
-        </motion.div>
+    <section id="platforms" className="os-section">
+      <div className="os-container">
+        <Reveal className="max-w-2xl">
+          <span className="os-eyebrow">{t('featured.eyebrow')}</span>
+          <h2 className="mt-4 font-display text-3xl font-semibold md:text-5xl">{t('featured.title')}</h2>
+          <p className="mt-4 text-os-muted">{t('featured.sub')}</p>
+        </Reveal>
 
-        {/* Category Filter with enhanced styling */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <button
-            onClick={() => setSelectedCategory(null)}
-            className={`px-6 py-3 rounded-full transition-all duration-300 ${
-              !selectedCategory
-                ? "bg-primary-600 text-white shadow-lg"
-                : "bg-white text-gray-600 hover:bg-gray-50"
-            }`}
-          >
-            All Projects
-          </button>
-          {Object.values(CATEGORIES).map((category) => (
-            <button
-              key={category.name}
-              onClick={() => setSelectedCategory(category.name)}
-              className={`px-6 py-3 rounded-full flex items-center gap-2 transition-all duration-300 ${
-                selectedCategory === category.name
-                  ? "bg-primary-600 text-white shadow-lg"
-                  : "bg-white text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {React.createElement(category.icon, {
-                className: "w-5 h-5",
-              })}
-              {category.name}
-            </button>
+        {lead && (
+          <div className="mt-12 grid gap-5 lg:grid-cols-12">
+            <Reveal className="lg:col-span-7">
+              <Card project={lead} lang={lang} t={t} featured localized={localized} />
+            </Reveal>
+            <div className="grid gap-5 lg:col-span-5">
+              {side.map((project) => (
+                <Reveal key={project.id}>
+                  <Card project={project} lang={lang} t={t} featured localized={localized} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <Reveal className="mt-24 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
+            <span className="os-eyebrow">{t('projects.eyebrow')}</span>
+            <h2 className="mt-4 font-display text-3xl font-semibold md:text-4xl">{t('projects.title')}</h2>
+            <p className="mt-4 text-os-muted">{t('projects.sub')}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {FILTERS.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setFilter(f.id)}
+                className={`min-h-11 rounded-full border px-4 py-2 font-mono text-xs uppercase tracking-wider transition ${
+                  filter === f.id
+                    ? 'border-accent-yellow bg-accent-yellow text-black'
+                    : 'border-os-border text-os-muted hover:border-accent-yellow/50 hover:text-os-text'
+                }`}
+              >
+                {t(f.labelKey)}
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {rest.map((project) => (
+            <Reveal key={project.id}>
+              <Card project={project} lang={lang} t={t} localized={localized} />
+            </Reveal>
           ))}
         </div>
-
-        {/* Projects Grid with Animation */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {filteredProjects.slice(0, visibleProjects).map((project) => (
-            <motion.div
-              key={project.id}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ProjectCard project={project} />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Load More Button */}
-        {visibleProjects < filteredProjects.length && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center mt-12"
-          >
-            <button
-              onClick={loadMoreProjects}
-              className="bg-primary-600 text-white px-8 py-3 rounded-full hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl"
-            >
-              Load More Projects
-            </button>
-          </motion.div>
-        )}
       </div>
     </section>
   );

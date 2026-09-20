@@ -1,102 +1,558 @@
 export const projects = [
   {
-    id: "ml-forecasting",
-    title: "ML-Powered Sales Forecasting",
-    category: "Machine Learning & AI",
-    description: "Advanced machine learning system for accurate sales forecasting and inventory optimization using time series analysis and deep learning models.",
-    image: "/images/projects/forecasting.jpg",
-    gallery: [
-      "/images/projects/forecasting/main.jpg",
-      "/images/projects/forecasting/dashboard.jpg",
-      "/images/projects/forecasting/analysis.jpg",
-      "/images/projects/forecasting/results.jpg"
+    id: 'tinda',
+    featured: true,
+    featuredRank: 1,
+    filter: 'agentic',
+    year: '2025–Present',
+    demo: 'https://app.tinda.sa/',
+    github: '',
+    video: '',
+    image: '/images/projects/tinda-hero.png',
+    gallery: ['/images/projects/tinda-hero.png', '/images/projects/tinda-onboarding.png'],
+    technologies: ['React', 'FastAPI', 'LLM', 'Embeddings', 'AI Agents', 'n8n', 'Docker', 'Redis', 'Postgres', 'OpenAI'],
+    title: { en: 'TINDA', ar: 'تيندا' },
+    subtitle: {
+      en: 'AI-powered automotive platform',
+      ar: 'منصة سيارات بالذكاء الاصطناعي',
+    },
+    productType: {
+      en: 'Saudi Arabia · AI · E-commerce · Automation · Product engineering',
+      ar: 'السعودية · ذكاء اصطناعي · تجارة إلكترونية · أتمتة · هندسة منتج',
+    },
+    role: { en: 'AI Platform Builder', ar: 'باني منصة ذكاء اصطناعي' },
+    description: {
+      en: 'Saudi automotive platform connecting vehicle owners with AI diagnosis, spare parts, maintenance centers, and digital vehicle management — from problem identification to checkout and tracking.',
+      ar: 'منصة سيارات سعودية تربط مالكي المركبات بتشخيص ذكي وقطع غيار ومراكز صيانة وإدارة رقمية للمركبة — من تحديد المشكلة إلى الدفع والتتبع.',
+    },
+    architectureFlow: [
+      { en: 'Vehicle / problem', ar: 'المركبة / المشكلة' },
+      { en: 'AI diagnosis', ar: 'تشخيص ذكي' },
+      { en: 'Compatible parts', ar: 'قطع متوافقة' },
+      { en: 'Checkout', ar: 'الدفع' },
+      { en: 'Delivery / service', ar: 'التوصيل / الخدمة' },
     ],
-    technologies: ["Python", "TensorFlow", "Scikit-learn", "Pandas", "Docker"],
-    features: [
-      "Time series forecasting using LSTM networks",
-      "Interactive dashboards for visualization",
-      "Automated model retraining pipeline",
-      "Real-time prediction API",
-      "Comprehensive performance metrics"
+    agents: [
+      { en: 'Diagnosis agent (text / photo)', ar: 'وكيل التشخيص (نص / صورة)' },
+      { en: 'Knowledge retrieval agent', ar: 'وكيل استرجاع المعرفة' },
+      { en: 'Vehicle–part fitment agent', ar: 'وكيل توافق المركبة والقطعة' },
+      { en: 'Supplier search agent', ar: 'وكيل بحث الموردين' },
+      { en: 'Workshop recommendation agent', ar: 'وكيل ترشيح الورش' },
+      { en: 'Conversational assistant (Arabic)', ar: 'مساعد محادثي (عربي)' },
     ],
-    github: "https://github.com/Ahmed-DS-ML/ml-forecasting",
-    demo: "https://ml-forecasting-demo.com",
-    youtube: "https://youtube.com/watch?v=demo",
-    date: "2023",
-    technicalDetails: `
-      The system utilizes state-of-the-art machine learning techniques including:
-      - LSTM neural networks for time series prediction
-      - Feature engineering pipeline for temporal data
-      - Automated hyperparameter optimization
-      - Model versioning and deployment automation
-      - Real-time data processing and prediction serving
-    `
+    businessFlow: [
+      { en: 'Diagnosis', ar: 'التشخيص' },
+      { en: 'Correct part', ar: 'القطعة الصحيحة' },
+      { en: 'Workshop', ar: 'الورشة' },
+      { en: 'Payment', ar: 'الدفع' },
+      { en: 'Delivery', ar: 'التوصيل' },
+    ],
+    capabilities: [
+      { en: 'AI diagnosis', ar: 'تشخيص ذكي' },
+      { en: 'Fitment', ar: 'التوافق' },
+      { en: 'Image part ID', ar: 'تعرّف القطعة من الصورة' },
+      { en: 'Arabic search', ar: 'بحث عربي' },
+      { en: 'Marketplace', ar: 'سوق' },
+      { en: 'Vendor & admin', ar: 'مورد وإدارة' },
+      { en: 'Payments & shipping', ar: 'دفع وشحن' },
+    ],
+    overview: {
+      en: 'Contributed to the design, development, integration, and technical evolution of TINDA — covering customer app, marketplace, vendor workflows, and Admin/Ops. Work spanned business and technical perspectives: journeys, acceptance criteria, APIs, databases, automation, and production infrastructure.',
+      ar: 'ساهم في تصميم وتطوير وتكامل وتطور تيندا التقني — شاملاً تطبيق العميل والسوق ومسارات الموردين ومنصة الإدارة والتشغيل. العمل غطى منظور الأعمال والتقنية: الرحلات ومعايير القبول وواجهات البرمجة وقواعد البيانات والأتمتة والبنية الإنتاجية.',
+    },
+    problem: {
+      en: 'Users struggle to identify the correct spare part amid thousands of SKUs, multiple suppliers, limited technical knowledge, slow diagnosis, and costly wrong purchases.',
+      ar: 'يعاني المستخدمون من تحديد القطعة الصحيحة وسط آلاف الأصناف وموردين متعددين ومعرفة تقنية محدودة وتشخيص بطيء ومشتريات خاطئة مكلفة.',
+    },
+    challenge: {
+      en: 'Vehicle–part compatibility (fitment), Arabic queries, image-based identification, and connecting diagnosis to checkout without turning the product into a generic catalog.',
+      ar: 'توافق المركبة والقطعة، والاستعلامات العربية، والتعرّف من الصورة، وربط التشخيص بالدفع دون تحويل المنتج إلى كتالوج عام.',
+    },
+    solution: {
+      en: 'AI-first platform: diagnosis from vehicle data, symptoms, and images; fitment logic; intelligent search; assistant for product, order, and service; workflows for products, vendors, orders, payments, shipping, notifications, returns, and support.',
+      ar: 'منصة بالذكاء الاصطناعي أولاً: تشخيص من بيانات المركبة والأعراض والصور؛ منطق توافق؛ بحث ذكي؛ مساعد للمنتج والطلب والخدمة؛ مسارات للمنتجات والموردين والطلبات والدفع والشحن والإشعارات والمرتجعات والدعم.',
+    },
+    architecture: {
+      en: 'User → AI agent → diagnosis → knowledge retrieval → vehicle matching → supplier search → workshop → checkout. FastAPI + LLM/embeddings + agents + Redis/Postgres, React client, n8n where needed.',
+      ar: 'المستخدم → وكيل ذكاء اصطناعي → تشخيص → استرجاع معرفة → مطابقة مركبة → بحث موردين → ورشة → دفع. FastAPI + نماذج/تضمينات + وكلاء + Redis/Postgres، وعميل React، وn8n عند الحاجة.',
+    },
+    implementation: {
+      en: 'Live at app.tinda.sa: Arabic assistant, photo/text diagnosis, parts marketplace, digital garage, workshop discovery, and guided onboarding.',
+      ar: 'حي على app.tinda.sa: مساعد عربي، تشخيص بالصورة والنص، سوق قطع، كراج رقمي، اكتشاف ورش، وتأهيل موجّه.',
+    },
+    challenges: {
+      en: 'Part ambiguity, supplier catalog quality, Arabic UX, trust in AI diagnosis, and keeping human experts in the loop for edge cases.',
+      ar: 'غموض القطع، جودة كتالوج المورد، تجربة عربية، الثقة بالتشخيص الذكي، وإبقاء الخبراء في الحلقة للحالات الحدّية.',
+    },
+    businessResult: {
+      en: 'One platform for AI diagnosis, spare-parts discovery, vehicle compatibility, maintenance, digital garage, payments, and order tracking.',
+      ar: 'منصة واحدة للتشخيص الذكي واكتشاف القطع وتوافق المركبة والصيانة والكراج الرقمي والدفع وتتبع الطلب.',
+    },
+    lessons: {
+      en: 'Agentic products win when the agent owns the workflow end-to-end. Never frame TINDA as an AI website — it is a product platform.',
+      ar: 'المنتجات الوكيلة تفوز عندما يملك الوكيل المسار من طرف إلى طرف. لا تُوصف تيندا كموقع ذكاء اصطناعي — هي منصة منتج.',
+    },
+    impact: {
+      en: 'Proof of cross-domain product engineering: automotive orchestration alongside industrial OS work — same identity, different vertical.',
+      ar: 'إثبات لهندسة منتج عبر المجالات: تنسيق سيارات إلى جانب نظام تشغيل صناعي — الهوية نفسها، القطاع مختلف.',
+    },
+    future: {
+      en: 'Deeper agent memory per vehicle, richer supplier SLAs, insurance workflows, and stronger vision models for part photos.',
+      ar: 'ذاكرة وكيل أعمق لكل مركبة، واتفاقيات مستوى خدمة أغنى للموردين، ومسارات تأمين، ونماذج رؤية أقوى لصور القطع.',
+    },
+    preview: [
+      { t: 'comment', v: '# tinda · agentic automotive' },
+      { t: 'nl' },
+      { t: 'keyword', v: 'agent' },
+      { t: 'plain', v: '.diagnose(photo | text)' },
+      { t: 'nl' },
+      { t: 'fn', v: 'fitment' },
+      { t: 'plain', v: '(vehicle) → parts → checkout' },
+    ],
   },
   {
-    id: "nlp-chatbot",
-    title: "Intelligent Customer Service Chatbot",
-    category: "Natural Language Processing",
-    description: "AI-powered chatbot using advanced NLP techniques to provide automated customer support and query resolution.",
-    image: "/images/projects/chatbot.jpg",
-    gallery: [
-      "/images/projects/chatbot/main.jpg",
-      "/images/projects/chatbot/conversation.jpg",
-      "/images/projects/chatbot/analytics.jpg",
-      "/images/projects/chatbot/training.jpg"
+    id: 'qube',
+    featured: true,
+    featuredRank: 2,
+    filter: 'product',
+    year: '2025–Present',
+    demo: '',
+    github: '',
+    video: '',
+    image: '',
+    gallery: [],
+    journeyOnly: true,
+    technologies: ['E-Commerce', 'UX', 'Product development', 'Automation', 'QA'],
+    title: { en: 'QUBE', ar: 'كيوب' },
+    subtitle: {
+      en: 'E-commerce & digital product',
+      ar: 'تجارة إلكترونية ومنتج رقمي',
+    },
+    productType: {
+      en: 'E-commerce · Product development · UX · Digital transformation',
+      ar: 'تجارة إلكترونية · تطوير منتج · تجربة مستخدم · تحول رقمي',
+    },
+    role: { en: 'Product engineering', ar: 'هندسة منتج' },
+    description: {
+      en: 'Digital commerce product: architecture and user flows, discovery and presentation, journey from discovery to conversion, UX consistency, and the bridge between business requirements and technical implementation.',
+      ar: 'منتج تجارة رقمية: معمارية وتدفقات مستخدم، اكتشاف وعرض، رحلة من الاكتشاف إلى التحويل، اتساق التجربة، والجسر بين متطلبات الأعمال والتنفيذ التقني.',
+    },
+    architectureFlow: [
+      { en: 'Discover', ar: 'اكتشاف' },
+      { en: 'Present', ar: 'عرض' },
+      { en: 'Decide', ar: 'قرار' },
+      { en: 'Convert', ar: 'تحويل' },
+      { en: 'Fulfil', ar: 'تنفيذ الطلب' },
     ],
-    technologies: ["Python", "PyTorch", "Transformers", "FastAPI", "Redis"],
-    features: [
-      "Natural language understanding",
-      "Context-aware responses",
-      "Multi-language support",
-      "Integration with CRM systems",
-      "Analytics dashboard"
+    agents: [],
+    businessFlow: [
+      { en: 'Discovery', ar: 'الاكتشاف' },
+      { en: 'Product presentation', ar: 'عرض المنتج' },
+      { en: 'Conversion', ar: 'التحويل' },
+      { en: 'Operations', ar: 'التشغيل' },
     ],
-    github: "https://github.com/Ahmed-DS-ML/nlp-chatbot",
-    demo: "https://chatbot-demo.com",
-    youtube: "https://youtube.com/watch?v=chatbot-demo",
-    date: "2023",
-    technicalDetails: `
-      Technical implementation includes:
-      - BERT-based model for intent classification
-      - Custom transformer architecture for response generation
-      - Redis-based caching for improved response time
-      - Scalable microservices architecture
-      - Real-time analytics and monitoring
-    `
+    capabilities: [
+      { en: 'Product architecture', ar: 'معمارية المنتج' },
+      { en: 'Discovery UX', ar: 'تجربة الاكتشاف' },
+      { en: 'Journey optimization', ar: 'تحسين الرحلة' },
+      { en: 'QA & planning', ar: 'جودة وتخطيط' },
+    ],
+    overview: {
+      en: 'Worked on QUBE as a digital commerce product — contributing to development and refinement of the platform experience so technology, UX, automation, and commercial objectives work together.',
+      ar: 'عمل على كيوب كمنتج تجارة رقمية — مساهماً في تطوير وتحسين تجربة المنصة بحيث تتحرك التقنية وتجربة المستخدم والأتمتة والأهداف التجارية معاً.',
+    },
+    problem: {
+      en: 'Commerce platforms stall when discovery, presentation, and conversion are treated as separate tickets instead of one journey.',
+      ar: 'منصات التجارة تتعثر عندما يُعامل الاكتشاف والعرض والتحويل كتذاكر منفصلة بدل رحلة واحدة.',
+    },
+    challenge: {
+      en: 'Keep UX consistent while translating business requirements into features, tests, and a maintainable architecture.',
+      ar: 'الحفاظ على اتساق التجربة مع تحويل متطلبات الأعمال إلى خصائص واختبارات ومعمارية قابلة للصيانة.',
+    },
+    solution: {
+      en: 'Product architecture and flows; discovery and presentation; journey optimization; UX/UI consistency; feature analysis, development planning, testing, and quality assurance.',
+      ar: 'معمارية المنتج والتدفقات؛ الاكتشاف والعرض؛ تحسين الرحلة؛ اتساق الواجهة؛ تحليل الخصائص وتخطيط التطوير والاختبار وضمان الجودة.',
+    },
+    architecture: {
+      en: 'Business requirement → product analysis → implementation → QA — with scalability and maintainability as constraints, not afterthoughts.',
+      ar: 'متطلب الأعمال → تحليل المنتج → التنفيذ → ضمان الجودة — مع قابلية التوسع والصيانة كقيود لا كأفكار لاحقة.',
+    },
+    implementation: {
+      en: 'Feature analysis, development planning, testing, and quality assurance across the commerce experience.',
+      ar: 'تحليل خصائص وتخطيط تطوير واختبار وضمان جودة عبر تجربة التجارة.',
+    },
+    challenges: {
+      en: 'Aligning commercial goals with technical debt limits without slowing the customer journey.',
+      ar: 'مواءمة الأهداف التجارية مع حدود الدين التقني دون إبطاء رحلة العميل.',
+    },
+    businessResult: {
+      en: 'Strengthened experience in building business-oriented digital products where technology, UX, automation, and commercial objectives work together.',
+      ar: 'تعزيز الخبرة في بناء منتجات رقمية موجّهة للأعمال حيث تعمل التقنية وتجربة المستخدم والأتمتة والأهداف التجارية معاً.',
+    },
+    lessons: {
+      en: 'Digital transformation is a product problem: flows, presentation, and quality — not a theme overlay.',
+      ar: 'التحول الرقمي مشكلة منتج: تدفقات وعرض وجودة — لا غطاء ثيم.',
+    },
+    impact: {
+      en: 'Second proof point next to TINDA that Ahmed ships commerce and marketplace products, not only factory systems.',
+      ar: 'دليل ثانٍ بجانب تيندا على أن أحمد يسلّم منتجات تجارة وأسواق، لا أنظمة مصانع فقط.',
+    },
+    future: {
+      en: 'Deeper automation on merchandising and operations as the catalog and vendor set grow.',
+      ar: 'أتمتة أعمق للعرض والتشغيل مع نمو الكتالوج ومجموعة الموردين.',
+    },
+    preview: [
+      { t: 'comment', v: '# qube · digital commerce' },
+      { t: 'nl' },
+      { t: 'fn', v: 'journey' },
+      { t: 'plain', v: '(discover → convert)' },
+    ],
   },
   {
-    id: "data-pipeline",
-    title: "Automated Data Pipeline Platform",
-    category: "Data Science & Analytics",
-    description: "Enterprise-grade data pipeline solution for automated data collection, processing, and analysis at scale.",
-    image: "/images/projects/pipeline.jpg",
-    gallery: [
-      "/images/projects/pipeline/overview.jpg",
-      "/images/projects/pipeline/monitoring.jpg",
-      "/images/projects/pipeline/workflow.jpg",
-      "/images/projects/pipeline/metrics.jpg"
+    id: 'metron',
+    featured: true,
+    featuredRank: 3,
+    filter: 'industrial',
+    year: '2025–Present',
+    demo: '',
+    github: '',
+    video: '',
+    image: '/images/projects/metron-industrial-ai-os.png',
+    gallery: ['/images/projects/metron-industrial-ai-os.png', '/images/achievements/Production-Dashboard.jpg'],
+    technologies: ['OPC UA', 'MQTT', 'Edge', 'OEE', 'Digital Twin', 'AI Agents', 'Python'],
+    title: { en: 'Metron', ar: 'ميترون' },
+    subtitle: { en: 'Industrial AI OS', ar: 'نظام تشغيل ذكاء اصطناعي صناعي' },
+    productType: { en: 'Industrial AI operating system · Manufacturing', ar: 'نظام تشغيل ذكاء اصطناعي صناعي · تصنيع' },
+    role: { en: 'Co-Founder', ar: 'شريك مؤسس' },
+    description: {
+      en: 'Industrial AI OS that turns factory signals into governed action — downtime ownership, live OEE (A×P×Q), operator workflows, and AI recommend → approve → act.',
+      ar: 'نظام تشغيل ذكاء اصطناعي صناعي يحوّل إشارات المصنع إلى فعل محكوم — ملكية التوقف، OEE حي (A×P×Q)، مسارات المشغّل، وحلقة توصية → موافقة → تنفيذ.',
+    },
+    architectureFlow: [
+      { en: 'Machine / PLC', ar: 'آلة / PLC' },
+      { en: 'Metron Edge', ar: 'ميترون Edge' },
+      { en: 'OPC UA → MQTT', ar: 'OPC UA → MQTT' },
+      { en: 'OEE & Twin', ar: 'OEE والتوأم' },
+      { en: 'Operator UI', ar: 'واجهة المشغّل' },
+      { en: 'Recommend → Approve → Act', ar: 'توصية → موافقة → تنفيذ' },
     ],
-    technologies: ["Apache Airflow", "Python", "PostgreSQL", "Docker", "AWS"],
-    features: [
-      "Automated data collection and validation",
-      "Scalable ETL processes",
-      "Real-time monitoring and alerts",
-      "Data quality checks",
-      "Custom reporting tools"
+    agents: [
+      { en: 'Downtime reason agent', ar: 'وكيل سبب التوقف' },
+      { en: 'OEE factor agent', ar: 'وكيل عوامل OEE' },
+      { en: 'Maintenance recommendation agent', ar: 'وكيل توصية الصيانة' },
+      { en: 'Human approval gate', ar: 'بوابة موافقة بشرية' },
     ],
-    github: "https://github.com/Ahmed-DS-ML/data-pipeline",
-    demo: "https://pipeline-demo.com",
-    youtube: "https://youtube.com/watch?v=pipeline-demo",
-    date: "2023",
-    technicalDetails: `
-      Key technical components:
-      - Apache Airflow for workflow orchestration
-      - Custom operators for specific data sources
-      - Automated data validation framework
-      - Scalable processing using Kubernetes
-      - Comprehensive monitoring and alerting system
-    `
-  }
-  // Add more projects as needed
+    businessFlow: [
+      { en: 'Signal', ar: 'إشارة' },
+      { en: 'Detect stop', ar: 'كشف توقف' },
+      { en: 'Reason-code', ar: 'رمز السبب' },
+      { en: 'Recommend', ar: 'توصية' },
+      { en: 'Approve', ar: 'موافقة' },
+      { en: 'Act on line', ar: 'تنفيذ على الخط' },
+    ],
+    capabilities: [
+      { en: 'Live OEE', ar: 'OEE حي' },
+      { en: 'Downtime ownership', ar: 'ملكية التوقف' },
+      { en: 'Edge ingest', ar: 'استيعاب طرفي' },
+      { en: 'Digital Twin', ar: 'توأم رقمي' },
+      { en: 'Governed AI', ar: 'ذكاء محكوم' },
+    ],
+    overview: {
+      en: 'As Co-Founder, Ahmed shapes vision, industrial architecture, and governed AI action loops for factories — platforms, not freelance hours.',
+      ar: 'كشريك مؤسس يشكّل أحمد الرؤية والمعمارية الصناعية وحلقات الفعل المحكومة للمصانع — منصات لا ساعات حرة.',
+    },
+    problem: {
+      en: 'Factories lose hours to unplanned downtime while OEE factors stay opaque. Operators lack one system to own losses and act on AI with clear governance.',
+      ar: 'تخسر المصانع ساعات في التوقف غير المخطط بينما عوامل OEE تبقى معتمة. لا يملك المشغّلون نظاماً واحداً لملكية الفاقد والفعل بالذكاء الاصطناعي بحوكمة واضحة.',
+    },
+    challenge: {
+      en: 'Unify OT/IT signals, earn operator trust, keep AI auditable, and ship a product story investors and plant leaders both understand.',
+      ar: 'توحيد إشارات OT/IT، وكسب ثقة المشغّل، وإبقاء الذكاء الاصطناعي قابلاً للتدقيق، وتسليم قصة منتج يفهمها المستثمرون وقادة المصنع.',
+    },
+    solution: {
+      en: 'One Industrial AI OS: Edge + telemetry + OEE dashboards + downtime reason codes + AI recommend → approve → act.',
+      ar: 'نظام تشغيل صناعي واحد: طرفية + قياس + لوحات OEE + رموز سبب التوقف + توصية → موافقة → تنفيذ.',
+    },
+    architecture: {
+      en: 'Metron Edge hardware + platform services: OPC UA in → processing & twin → MQTT out; live A×P×Q; operator engage; governed recommendations.',
+      ar: 'عتاد ميترون الطرفي + خدمات المنصة: OPC UA دخولاً → معالجة وتوأم → MQTT خروجاً؛ A×P×Q حي؛ تفاعل المشغّل؛ توصيات محكومة.',
+    },
+    challenges: {
+      en: 'Noisy industrial signals, OT security boundaries, multilingual operators, and proving ROI beyond dashboards.',
+      ar: 'إشارات صناعية ضوضائية، حدود أمن OT، مشغّلون متعددون اللغات، وإثبات العائد أبعد من اللوحات.',
+    },
+    businessResult: {
+      en: 'Product positioning as Industrial AI OS — downtime down, OEE clear, operators aligned, critical AI governed.',
+      ar: 'تموضع منتج كنظام تشغيل ذكاء اصطناعي صناعي — توقف أقل، OEE أوضح، مشغّلون متوافقون، ذكاء حرج محكوم.',
+    },
+    lessons: {
+      en: 'Industrial AI wins when hardware, telemetry, and operator workflow ship as one OS with governance on every AI action.',
+      ar: 'الذكاء الاصطناعي الصناعي يفوز عندما يُسلَّم العتاد والقياس ومسار المشغّل كنظام تشغيل واحد بحوكمة على كل فعل ذكاء اصطناعي.',
+    },
+    impact: {
+      en: 'Clear factory signals → owned losses → governed AI actions. Proof that Ahmed builds industrial products, not only consulting deliverables.',
+      ar: 'إشارات مصنع واضحة → فاقد مملوك → أفعال ذكاء محكومة. إثبات أن أحمد يبني منتجات صناعية لا تسليمات استشارية فقط.',
+    },
+    future: {
+      en: 'Multi-line rollout, deeper MES/ERP bridges, stronger maintenance agents, twin coverage expansion.',
+      ar: 'طرح متعدد الخطوط، جسور MES/ERP أعمق، وكلاء صيانة أقوى، وتوسيع تغطية التوأم.',
+    },
+    preview: [
+      { t: 'comment', v: '# metron · industrial ai os' },
+      { t: 'nl' },
+      { t: 'fn', v: 'oee' },
+      { t: 'plain', v: ' = A × P × Q' },
+    ],
+  },
+  {
+    id: 'cycle-time',
+    featured: false,
+    filter: 'industrial',
+    year: '2024–2025',
+    demo: '',
+    github: '',
+    image: '/images/achievements/Production-Dashboard.jpg',
+    gallery: ['/images/achievements/Production-Dashboard.jpg', '/images/achievements/Dr-Saleh.jpg'],
+    technologies: ['ERP Integration', 'Python', 'Real-time Monitoring', 'Dashboards', 'Industrial IoT'],
+    title: { en: 'Cycle Time System', ar: 'نظام زمن الدورة' },
+    subtitle: { en: 'ERP-linked manufacturing intelligence', ar: 'ذكاء تصنيع مرتبط بـ ERP' },
+    productType: { en: 'Factory intelligence platform', ar: 'منصة ذكاء مصنع' },
+    role: { en: 'Systems Lead', ar: 'قائد أنظمة' },
+    description: {
+      en: 'Cycle-time intelligence integrated with ERP — real-time production monitoring so every cycle becomes a measurable, optimizable signal.',
+      ar: 'ذكاء زمن الدورة مدمج مع ERP — مراقبة إنتاج لحظية بحيث تصبح كل دورة إشارة قابلة للقياس والتحسين.',
+    },
+    architectureFlow: [
+      { en: 'Machine cycle', ar: 'دورة الآلة' },
+      { en: 'Capture', ar: 'التقاط' },
+      { en: 'ERP Cycle Time', ar: 'زمن دورة ERP' },
+      { en: 'Dashboard', ar: 'لوحة' },
+    ],
+    agents: [],
+    businessFlow: [
+      { en: 'Measure cycle', ar: 'قياس الدورة' },
+      { en: 'Detect variance', ar: 'كشف الانحراف' },
+      { en: 'Optimize line', ar: 'تحسين الخط' },
+    ],
+    capabilities: [
+      { en: 'Cycle capture', ar: 'التقاط الدورة' },
+      { en: 'ERP sync', ar: 'مزامنة ERP' },
+      { en: 'Live dashboards', ar: 'لوحات حية' },
+    ],
+    overview: {
+      en: 'Factory intelligence productized around cycle time — connecting machines, ERP, and operators for continuous improvement.',
+      ar: 'ذكاء مصنع مُنتَج حول زمن الدورة — ربط الآلات وERP والمشغّلين للتحسين المستمر.',
+    },
+    problem: {
+      en: 'Cycle times were opaque; ERP and shop floor were disconnected, delaying optimization.',
+      ar: 'أزمنة الدورة كانت معتمة؛ ERP وأرض المصنع كانا منفصلين مما أخّر التحسين.',
+    },
+    challenge: {
+      en: 'Legacy machines, ERP constraints, and Arabic operator UX under live production.',
+      ar: 'آلات قديمة، قيود ERP، وتجربة مشغّل عربية تحت إنتاج حي.',
+    },
+    solution: {
+      en: 'ERP-linked cycle-time monitoring with live dashboards and cross-team visibility.',
+      ar: 'مراقبة زمن دورة مرتبطة بـ ERP مع لوحات حية ورؤية عبر الفرق.',
+    },
+    architecture: {
+      en: 'Machine signals → processing → ERP Cycle Time adapters → operator/management dashboards.',
+      ar: 'إشارات الآلة → معالجة → محولات زمن دورة ERP → لوحات المشغّل والإدارة.',
+    },
+    challenges: {
+      en: 'Signal noise, stakeholder alignment, and non-disruptive cutover.',
+      ar: 'ضوضاء الإشارة، محاذاة أصحاب المصلحة، والتحول دون تعطيل.',
+    },
+    businessResult: {
+      en: 'Clearer manufacturing process monitoring and optimization with ERP-backed cycle visibility.',
+      ar: 'مراقبة وتحسين أوضح لعملية التصنيع مع رؤية دورة مدعومة بـ ERP.',
+    },
+    lessons: {
+      en: 'Factory AI credibility starts with trustworthy cycle and downtime data.',
+      ar: 'مصداقية ذكاء المصنع تبدأ ببيانات دورة وتوقف يمكن الوثوق بها.',
+    },
+    impact: {
+      en: 'Foundation for OEE and Metron-style governed industrial intelligence. Related partner evidence: Creative Solutions ERP (Dr. Saleh).',
+      ar: 'أساس لـ OEE وذكاء صناعي محكوم على نمط ميترون. دليل شريك: Creative Solutions ERP (د. صالح).',
+    },
+    future: {
+      en: 'Predictive cycle drift and tighter coupling into Metron OS.',
+      ar: 'انحراف دورة تنبؤي وربط أوثق داخل نظام ميترون.',
+    },
+    preview: [
+      { t: 'comment', v: '# cycle_time → erp' },
+      { t: 'nl' },
+      { t: 'fn', v: 'capture' },
+      { t: 'plain', v: '(machine) → erp.sync()' },
+    ],
+  },
+  {
+    id: 'oee-platform',
+    featured: false,
+    filter: 'industrial',
+    year: '2024–2025',
+    image: '/images/factory-automation.jpg',
+    gallery: ['/images/factory-automation.jpg', '/images/achievements/Production-Dashboard.jpg'],
+    technologies: ['OEE', 'Dashboards', 'Telemetry', 'Python', 'Analytics'],
+    title: { en: 'OEE Intelligence', ar: 'ذكاء OEE' },
+    subtitle: { en: 'A × P × Q in real time', ar: 'A × P × Q في الزمن الحقيقي' },
+    productType: { en: 'Factory analytics platform', ar: 'منصة تحليلات مصنع' },
+    description: {
+      en: 'Real-time OEE platform: Availability × Performance × Quality made visible — so losses have owners and improvement has a path.',
+      ar: 'منصة OEE لحظية: التوفر × الأداء × الجودة ظاهرة — بحيث يملك الفاقد مالكاً وللتحسين مسار.',
+    },
+    architectureFlow: [
+      { en: 'Telemetry', ar: 'قياس' },
+      { en: 'A / P / Q', ar: 'A / P / Q' },
+      { en: 'OEE score', ar: 'درجة OEE' },
+      { en: 'Action', ar: 'فعل' },
+    ],
+    agents: [],
+    businessFlow: [
+      { en: 'Measure', ar: 'قياس' },
+      { en: 'Attribute loss', ar: 'نسب الفاقد' },
+      { en: 'Improve', ar: 'تحسين' },
+    ],
+    capabilities: [
+      { en: 'Live OEE', ar: 'OEE حي' },
+      { en: 'Loss reasons', ar: 'أسباب الفاقد' },
+      { en: 'Shift views', ar: 'عرض الورديات' },
+    ],
+    overview: {
+      en: 'Productized OEE visibility for manufacturing lines — analytics that operators and leaders can act on.',
+      ar: 'رؤية OEE مُنتَجة لخطوط التصنيع — تحليلات يمكن للمشغّلين والقادة التصرف عليها.',
+    },
+    problem: {
+      en: 'OEE was reported late or not at all; losses had no clear owner.',
+      ar: 'كان OEE يُبلَّغ متأخراً أو لا يُبلَّغ؛ الفاقد بلا مالك واضح.',
+    },
+    challenge: {
+      en: 'Define trustworthy factors from imperfect plant data.',
+      ar: 'تعريف عوامل موثوقة من بيانات مصنع غير كاملة.',
+    },
+    solution: {
+      en: 'Real-time A×P×Q dashboards with reason-ready loss views.',
+      ar: 'لوحات A×P×Q لحظية مع عروض فاقد جاهزة للسبب.',
+    },
+    architecture: {
+      en: 'Telemetry ingest → factor engines → OEE composites → role-based dashboards.',
+      ar: 'استيعاب القياس → محركات العوامل → مركّبات OEE → لوحات حسب الدور.',
+    },
+    challenges: {
+      en: 'Data quality, shift handoffs, and cultural adoption of reason codes.',
+      ar: 'جودة البيانات، تسليم الورديات، وتبنّي ثقافي لرموز السبب.',
+    },
+    businessResult: {
+      en: 'Clear OEE factors and faster improvement loops.',
+      ar: 'عوامل OEE أوضح وحلقات تحسين أسرع.',
+    },
+    lessons: {
+      en: 'OEE without ownership is vanity — pair metrics with reason codes.',
+      ar: 'OEE بلا ملكية زينة — اربط المقاييس برموز السبب.',
+    },
+    impact: {
+      en: 'Direct input into Metron’s industrial OS narrative.',
+      ar: 'مدخل مباشر في سرد نظام ميترون الصناعي.',
+    },
+    future: {
+      en: 'Agent-suggested countermeasures with HITL approval.',
+      ar: 'إجراءات مضادة يقترحها وكيل مع موافقة الإنسان في الحلقة.',
+    },
+    preview: [
+      { t: 'comment', v: '# oee = A * P * Q' },
+      { t: 'nl' },
+      { t: 'fn', v: 'compute' },
+      { t: 'plain', v: '(availability, performance, quality)' },
+    ],
+  },
+  {
+    id: 'ai-automation-platform',
+    featured: false,
+    filter: 'agentic',
+    year: '2025',
+    image: '/images/nlp-pipeline.jpg',
+    gallery: ['/images/nlp-pipeline.jpg'],
+    demo: '',
+    github: 'https://github.com/Ahmed-DS-ML',
+    technologies: ['n8n', 'Python', 'LLMs', 'Webhooks', 'Docker', 'VPS', 'Postgres'],
+    title: { en: 'AI Automation Platform', ar: 'منصة أتمتة الذكاء الاصطناعي' },
+    subtitle: { en: 'Agentic workflows for operations', ar: 'مسارات وكيلة للعمليات' },
+    productType: { en: 'Agentic automation platform', ar: 'منصة أتمتة وكيلة' },
+    description: {
+      en: 'Agentic automation platform: LLM workflows, webhooks, conditional routing, and operational paths with human-in-the-loop gates.',
+      ar: 'منصة أتمتة وكيلة: مسارات نماذج لغوية، وwebhooks، وتوجيه شرطي، ومسارات تشغيل ببوابات الإنسان في الحلقة.',
+    },
+    architectureFlow: [
+      { en: 'Trigger', ar: 'محفّز' },
+      { en: 'Agent', ar: 'وكيل' },
+      { en: 'Tools / APIs', ar: 'أدوات / واجهات' },
+      { en: 'HITL gate', ar: 'بوابة بشرية' },
+      { en: 'Action', ar: 'فعل' },
+    ],
+    agents: [
+      { en: 'Routing agent', ar: 'وكيل التوجيه' },
+      { en: 'Data transform agent', ar: 'وكيل تحويل البيانات' },
+      { en: 'Exception handler', ar: 'معالج الاستثناء' },
+      { en: 'Approval gate', ar: 'بوابة الموافقة' },
+    ],
+    businessFlow: [
+      { en: 'Event', ar: 'حدث' },
+      { en: 'Decide', ar: 'قرار' },
+      { en: 'Approve if needed', ar: 'موافقة إن لزم' },
+      { en: 'Execute', ar: 'تنفيذ' },
+    ],
+    capabilities: [
+      { en: 'Agentic workflows', ar: 'مسارات وكيلة' },
+      { en: 'HITL', ar: 'إنسان في الحلقة' },
+      { en: 'Audit trail', ar: 'سجل تدقيق' },
+    ],
+    overview: {
+      en: 'Cross-industry agentic automation runtime — the same systems thinking behind TINDA and Metron applied to operational workflows.',
+      ar: 'تشغيل أتمتة وكيلة عبر الصناعات — نفس التفكير المنظومي خلف تيندا وميترون مطبّق على مسارات تشغيل.',
+    },
+    problem: {
+      en: 'Manual routing across tools slowed response and introduced errors.',
+      ar: 'التوجيه اليدوي عبر الأدوات أبطأ الاستجابة وأدخل أخطاء.',
+    },
+    challenge: {
+      en: 'Idempotency, secrets, observability, and trustworthy autonomy.',
+      ar: 'عدم التكرار، والأسرار، والرصد، واستقلالية يمكن الوثوق بها.',
+    },
+    solution: {
+      en: 'Self-hosted agentic graphs with tools, database, and human approval gates.',
+      ar: 'رسوم وكيلة مستضافة ذاتياً مع أدوات وقاعدة بيانات وبوابات موافقة بشرية.',
+    },
+    architecture: {
+      en: 'Trigger → agent → tools/APIs → Postgres → HITL → action; n8n + Python + LLM on VPS.',
+      ar: 'محفّز → وكيل → أدوات/واجهات → Postgres → إنسان في الحلقة → فعل؛ n8n + Python + نموذج لغوي على خادم.',
+    },
+    challenges: {
+      en: 'Failure modes, retries, and keeping humans on critical paths.',
+      ar: 'أنماط الفشل، وإعادة المحاولة، وإبقاء البشر على المسارات الحرجة.',
+    },
+    businessResult: {
+      en: 'Automated operational paths with clearer auditability.',
+      ar: 'مسارات تشغيل مؤتمتة بتدقيق أوضح.',
+    },
+    lessons: {
+      en: 'Autonomy without gates destroys trust — design HITL as a first-class agent.',
+      ar: 'الاستقلالية بلا بوابات تهدم الثقة — صمّم الإنسان في الحلقة كوكيل من الدرجة الأولى.',
+    },
+    impact: {
+      en: 'Reusable agentic muscle across automotive (TINDA) and industrial (Metron) products.',
+      ar: 'عضلة وكيلة قابلة لإعادة الاستخدام عبر منتجات السيارات (تيندا) والصناعة (ميترون).',
+    },
+    future: {
+      en: 'Shared agent runtime serving Metron + TINDA-style verticals.',
+      ar: 'تشغيل وكيل مشترك يخدم قطاعات على نمط ميترون وتيندا.',
+    },
+    preview: [
+      { t: 'comment', v: '# agentic automation runtime' },
+      { t: 'nl' },
+      { t: 'fn', v: 'createAgent' },
+      { t: 'plain', v: '({ policy: "human-in-loop" })' },
+    ],
+  },
 ];
+
+export default projects;

@@ -1,280 +1,271 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import JupyterCodeDisplay from "./JupyterCodeDisplay";
-import AIModel from "./AIModel";
-import BackToProjects from "./BackToProjects";
-import Navbar from './Navbar';
-import { FaArrowLeft } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { projects } from '../data/projects';
+import { pick, pickList } from '../i18n/pick';
+import { useI18n } from '../i18n/I18nProvider.jsx';
+import Seo from './Seo.jsx';
+import { canonicalPath, homeHash } from '../seo/paths.js';
+import {
+  breadcrumbSchema,
+  graph,
+  personSchema,
+  softwareSchema,
+  webPageSchema,
+  websiteSchema,
+} from '../seo/schema.js';
+
+const Flow = ({ steps, lang }) => {
+  const resolved = pickList(steps, lang);
+  if (!resolved?.length) return null;
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-2">
+      {resolved.map((step, i) => (
+        <React.Fragment key={`${step}-${i}`}>
+          <span className="rounded-lg border border-os-border bg-os-code px-3 py-2 font-mono text-xs text-os-text">
+            {step}
+          </span>
+          {i < resolved.length - 1 && <span className="font-mono text-accent-yellow">→</span>}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+};
+
+const Section = ({ label, children }) => (
+  <section className="border-t border-os-border pt-10">
+    <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-accent-yellow">{label}</h2>
+    <div className="mt-4">{children}</div>
+  </section>
+);
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [project, setProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Animation variants for page transitions
-  const pageVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 }
-  };
+  const location = useLocation();
+  const { t, lang, localized } = useI18n();
+  const [project, setProject] = useState(() => projects.find((p) => p.id === id) || null);
 
   useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const projectsData = JSON.parse(localStorage.getItem("projectsData") || "[]");
-        const allProjects = Object.values(projectsData).flat();
-        const foundProject = allProjects.find((p) => p.id === parseInt(id));
-        
-        if (!foundProject) {
-          throw new Error("Project not found");
-        }
-        
-        setProject(foundProject);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProject();
+    let fromStorage = {};
+    try {
+      fromStorage = JSON.parse(localStorage.getItem('projectsData') || '{}') || {};
+    } catch {
+      fromStorage = {};
+    }
+    const found = fromStorage[id] || projects.find((p) => p.id === id);
+    setProject(found || null);
+    window.scrollTo(0, 0);
   }, [id]);
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
-  if (loading) {
+  if (!project) {
     return (
-      <motion.div 
-        className="min-h-screen flex items-center justify-center"
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageVariants}
-      >
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </motion.div>
+      <div className="os-container flex min-h-[60vh] flex-col items-center justify-center py-24">
+        <Seo
+          title={t('detail.notFound')}
+          description={t('detail.notFound')}
+          pathname={location.pathname}
+          lang={lang}
+          noindex
+        />
+        <h1 className="font-display text-3xl">{t('detail.notFound')}</h1>
+        <Link to={homeHash('#platforms', lang)} className="os-btn-primary mt-6">
+          {t('detail.back')}
+        </Link>
+      </div>
     );
   }
 
-  if (error || !project) {
-    return (
-      <motion.div 
-        className="min-h-screen flex flex-col items-center justify-center p-4"
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={pageVariants}
-      >
-        <button 
-          onClick={handleBack}
-          className="flex items-center gap-2 text-primary-600 hover:text-primary-700 transition-colors mb-4"
-        >
-          <FaArrowLeft /> Back to Projects
-        </button>
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">
-            {error || "Project Not Found"}
-          </h1>
-          <p className="text-gray-600">
-            The project you&apos;re looking for doesn&apos;t seem to exist.
-          </p>
-        </div>
-      </motion.div>
-    );
-  }
-
-  const projectCategories = project.categories || [];
-  const mainCategory = projectCategories[0] || "Project";
-
-  // Sample Jupyter notebook code for the project
-  const sampleCode = `
-# Import necessary libraries
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Load and preprocess data
-def load_data(filename):
-    data = pd.read_csv(filename)
-    return data.dropna()
-
-# Train model
-def train_model(X, y):
-    from sklearn.model_selection import train_test_split
-    from sklearn.linear_model import LinearRegression
-    
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    return model
-
-# Main execution
-if __name__ == "__main__":
-    data = load_data("dataset.csv")
-    model = train_model(data.X, data.y)
-    print("Training complete!")
-  `;
+  const title = pick(project.title, lang);
+  const subtitle = pick(project.subtitle, lang);
+  const role = pick(project.role, lang);
+  const description = pick(project.description, lang);
+  const pageTitle = `${title} — ${subtitle || t('seo.homeTitle')}`;
+  const url = canonicalPath(location.pathname);
+  const jsonLd = graph([
+    personSchema(),
+    websiteSchema(),
+    webPageSchema({ url, name: pageTitle, description, lang }),
+    breadcrumbSchema([
+      { name: t('brand.name'), url: canonicalPath(localized('/')) },
+      { name: title, url },
+    ]),
+    softwareSchema({ name: title, description, demo: project.demo }),
+  ]);
 
   return (
-    <>
-      {/* JSON-LD for the specific project to improve search engine understanding */}
-      {project && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "CreativeWork",
-              name: project.title,
-              description: project.longDescription || project.description,
-              image: project.image ? `https://portfolio.ahmed-n8n.cfd${project.image}` : undefined,
-              url: `https://portfolio.ahmed-n8n.cfd/project/${project.id}`,
-              keywords: project.technologies ? project.technologies.join(", ") : undefined,
-            }),
-          }}
-        />
-      )}
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageVariants}
-      className="min-h-screen bg-gray-50"
-    >
-      <Navbar />
-      
-      {/* Back Button */}
-      <motion.button
-        onClick={handleBack}
-        className="fixed top-24 left-8 z-50 flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-gray-700 hover:text-gray-900"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <FaArrowLeft className="w-4 h-4" />
-        <span>Back</span>
-      </motion.button>
+    <article className="pb-24 pt-28">
+      <Seo
+        title={pageTitle}
+        description={description}
+        pathname={location.pathname}
+        lang={lang}
+        type="article"
+        jsonLd={jsonLd}
+      />
+      <div className="os-container max-w-5xl">
+        <Link to={homeHash('#platforms', lang)} className="font-mono text-xs uppercase tracking-wider text-accent-yellow">
+          ← {t('detail.back')}
+        </Link>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        className="min-h-screen bg-gray-50 pt-16"
-      >
-        <BackToProjects />
-        
-        {/* Project Hero Section */}
-        <div className="project-container">
-          {project.image && (
-            <img
-              src={project.image}
-              alt={project.title}
-              className={`project-image ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-              onLoad={() => setImageLoaded(true)}
-            />
+        <header className="mt-8">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-os-muted">
+            {pick(project.productType, lang) || pick(project.category, lang)} · {project.year}
+            {role ? ` · ${role}` : ''}
+          </p>
+          <h1 className="mt-3 font-display text-4xl font-semibold md:text-6xl">{title}</h1>
+          {subtitle && <p className="mt-3 font-display text-xl text-accent-yellow md:text-2xl">{subtitle}</p>}
+          {role && (
+            <p className="mt-4 inline-flex rounded-full border border-accent-yellow/40 bg-accent-yellow/10 px-3 py-1 font-mono text-xs uppercase tracking-wider text-accent-yellow">
+              {t('detail.role')} · {role}
+            </p>
           )}
-          <div className="text-overlay">
-            <div className="project-tags">
-              <span className="project-tag">{mainCategory}</span>
-              {project.technologies?.map((tech, index) => (
-                <span key={index} className="project-tag">
+          <p className="mt-5 max-w-3xl text-lg text-os-muted">{pick(project.description, lang)}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {project.demo && (
+              <a href={project.demo} target="_blank" rel="noopener noreferrer" className="os-btn-primary text-sm">
+                {t('detail.live')}
+              </a>
+            )}
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="os-btn-secondary text-sm">
+                {t('detail.github')}
+              </a>
+            )}
+          </div>
+        </header>
+
+        {project.image && (
+          <img
+            src={project.image}
+            alt={title}
+            className="mt-12 w-full rounded-2xl border border-os-border object-cover object-top shadow-glow-sm"
+            loading="lazy"
+          />
+        )}
+
+        {pick(project.overview, lang) && (
+          <Section label={t('detail.overview')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.overview, lang)}</p>
+          </Section>
+        )}
+
+        {pick(project.problem, lang) && (
+          <Section label={t('detail.problem')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.problem, lang)}</p>
+          </Section>
+        )}
+
+        {pick(project.challenge, lang) && (
+          <Section label={t('detail.challenge')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.challenge, lang)}</p>
+          </Section>
+        )}
+
+        {pick(project.solution, lang) && (
+          <Section label={t('detail.solution')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.solution, lang)}</p>
+          </Section>
+        )}
+
+        {(project.architectureFlow || pick(project.architecture, lang)) && (
+          <Section label={t('detail.architecture')}>
+            {pick(project.architecture, lang) && (
+              <p className="leading-relaxed text-os-muted">{pick(project.architecture, lang)}</p>
+            )}
+            <Flow steps={project.architectureFlow} lang={lang} />
+          </Section>
+        )}
+
+        {pickList(project.agents, lang).length > 0 && (
+          <Section label={t('detail.agents')}>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {pickList(project.agents, lang).map((a) => (
+                <li key={a} className="rounded-xl border border-os-border bg-os-surface px-4 py-3 font-mono text-sm text-os-muted">
+                  <span className="me-2 text-accent-yellow">▸</span>
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
+
+        {pickList(project.businessFlow, lang).length > 0 && (
+          <Section label={t('detail.businessFlow')}>
+            <p className="mb-2 text-sm text-os-muted">{t('detail.businessFlowHint')}</p>
+            <Flow steps={project.businessFlow} lang={lang} />
+          </Section>
+        )}
+
+        {pick(project.implementation, lang) && (
+          <Section label={t('detail.implementation')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.implementation, lang)}</p>
+          </Section>
+        )}
+
+        {pickList(project.capabilities, lang).length > 0 && (
+          <Section label={t('detail.capabilities')}>
+            <div className="flex flex-wrap gap-2">
+              {pickList(project.capabilities, lang).map((c) => (
+                <span
+                  key={c}
+                  className="rounded-full border border-os-border bg-os-code px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-os-muted"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {pick(project.challenges, lang) && (
+          <Section label={t('detail.challenges')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.challenges, lang)}</p>
+          </Section>
+        )}
+
+        {pick(project.lessons, lang) && (
+          <Section label={t('detail.lessons')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.lessons, lang)}</p>
+          </Section>
+        )}
+
+        {(pick(project.impact, lang) || pick(project.businessResult, lang)) && (
+          <Section label={t('detail.impact')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.impact, lang) || pick(project.businessResult, lang)}</p>
+          </Section>
+        )}
+
+        {project.gallery?.length > 0 && (
+          <Section label={t('detail.gallery')}>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {project.gallery.map((src) => (
+                <img key={src} src={src} alt={`${title}`} className="w-full rounded-xl border border-os-border object-cover" loading="lazy" />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {project.technologies?.length > 0 && (
+          <Section label={t('detail.technology')}>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-accent-yellow/30 bg-accent-yellow/5 px-3 py-1.5 font-mono text-[11px] text-accent-yellow"
+                >
                   {tech}
                 </span>
               ))}
             </div>
-            <h1>{project.title}</h1>
-            <h2>{project.subtitle || mainCategory}</h2>
-            <h3>{project.technologies?.join(", ")}</h3>
-            <p>{project.description}</p>
-            <div className="project-buttons flex gap-4 mt-6">
-              {project.githubLink && (
-                <motion.a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-button bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                  View on GitHub
-                </motion.a>
-              )}
-              {project.demo && (
-                <motion.a
-                  href={project.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="project-button bg-white hover:bg-gray-50 text-gray-800 px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-300 border border-gray-200"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                  Live Demo
-                </motion.a>
-              )}
-            </div>
-          </div>
-        </div>
+          </Section>
+        )}
 
-        {/* Project Content */}
-        <div className="container mx-auto px-4 py-12">
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="p-8">
-              <Tabs className="project-tabs">
-                <TabList className="flex border-b border-gray-200 mb-8">
-                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
-                    Overview
-                  </Tab>
-                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
-                    Code Implementation
-                  </Tab>
-                  <Tab className="px-6 py-3 text-gray-600 hover:text-primary-600 cursor-pointer border-b-2 border-transparent focus:outline-none">
-                    AI Playground
-                  </Tab>
-                </TabList>
-
-                <TabPanel>
-                  <div className="space-y-8">
-                    <div>
-                      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Project Overview</h2>
-                      <p className="text-gray-600 leading-relaxed">
-                        {project.longDescription || project.description}
-                      </p>
-                    </div>
-                  </div>
-                </TabPanel>
-
-                <TabPanel>
-                  <JupyterCodeDisplay code={sampleCode} />
-                </TabPanel>
-
-                <TabPanel>
-                  <AIModel />
-                </TabPanel>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-    </>
+        {pick(project.future, lang) && (
+          <Section label={t('detail.future')}>
+            <p className="leading-relaxed text-os-muted">{pick(project.future, lang)}</p>
+          </Section>
+        )}
+      </div>
+    </article>
   );
 };
 

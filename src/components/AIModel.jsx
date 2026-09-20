@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Seo from "./Seo.jsx";
 import { FaArrowLeft, FaCopy, FaCheck, FaKey, FaSave, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AIModel = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +20,6 @@ const AIModel = () => {
     const saved = localStorage.getItem('aiModelApiKeys');
     return saved ? JSON.parse(saved) : {};
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Load saved API keys from localStorage
@@ -275,7 +277,13 @@ const AIModel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 relative">
+    <div className="min-h-screen bg-os-bg relative">
+      <Seo
+        title="AI playground — Ahmed Ashraf"
+        description="Private AI playground. Not a public product page."
+        pathname={location.pathname}
+        noindex
+      />
       <ToastContainer
         position="top-right"
         autoClose={2000}

@@ -1,176 +1,107 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { TypeAnimation } from "react-type-animation";
-import {
-  FaLinkedin,
-  FaGithub,
-  FaTwitter,
-  FaEnvelope,
-} from "react-icons/fa";
+import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useI18n } from '../i18n/I18nProvider.jsx';
+import NeuralField from './NeuralField.jsx';
 
 const Hero = () => {
-  const socialLinks = [
-    {
-      name: "LinkedIn",
-      icon: FaLinkedin,
-      url: "https://www.linkedin.com/in/ahmed-datascince/",
-      color: "hover:text-[#0077B5]",
-    },
-    {
-      name: "GitHub",
-      icon: FaGithub,
-      url: "https://github.com/Ahmed-DS-ML",
-      color: "hover:text-[#333]",
-    },
-    {
-      name: "Twitter",
-      icon: FaTwitter,
-      url: "https://twitter.com/AhmedAshraf",  // Update this with your Twitter handle
-      color: "hover:text-[#1DA1F2]",
-    },
-    {
-      name: "Email",
-      icon: FaEnvelope,
-      url: "mailto:ahmed.datascince@gmail.com",
-      color: "hover:text-[#EA4335]",
-    },
-  ];
+  const { t, lang } = useI18n();
+
+  const scrollTo = (id) => {
+    const el = document.querySelector(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
+  const reduced =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primary-50 to-secondary-50 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-          {/* Profile Image */}
+    <section id="home" className="relative flex min-h-[92dvh] items-center overflow-hidden pt-24">
+      <NeuralField />
+      <div className="pointer-events-none absolute inset-0 z-[1] tech-grid" aria-hidden="true" />
+
+      <div className="os-container relative z-10 py-16">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              duration: 0.8,
-              ease: [0, 0.71, 0.2, 1.01],
-              scale: {
-                type: "spring",
-                damping: 10,
-                stiffness: 100,
-                restDelta: 0.001
-              }
-            }}
-            className="w-full lg:w-1/2 flex justify-center"
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
           >
-            <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80">
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full"
-                animate={{
-                  scale: [1, 1.05, 1],
-                  opacity: [0.5, 0.8, 0.5]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.img
-                src="/images/profile.jpg"
-                alt="Ahmed Ashraf"
-                className="absolute inset-0 w-full h-full object-cover rounded-full border-4 border-white shadow-2xl filter contrast-105 brightness-105"
-                style={{ boxShadow: "0 0 25px rgba(0, 100, 150, 0.3)" }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                loading="lazy"
-              />
-              <motion.div
-                className="absolute -bottom-2 -right-2 bg-primary-600 text-white p-2 rounded-full shadow-lg z-10"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 20,
-                  delay: 1
-                }}
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <span className="os-eyebrow">
+                <span className="status-dot" />
+                {t('hero.open')}
+              </span>
+              <button
+                type="button"
+                onClick={() => scrollTo('#recognition')}
+                className="min-h-11 rounded-full border border-os-border bg-os-surface/80 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-os-muted transition hover:text-accent-yellow"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-              </motion.div>
+                {t('hero.favikon')}
+              </button>
+            </div>
+
+            <p className="mb-3 font-mono text-sm uppercase tracking-[0.2em] text-accent-yellow">
+              {t('hero.alias')}
+            </p>
+
+            <h1 className="font-display text-[clamp(2.25rem,5vw,4.25rem)] font-bold leading-[1.08] text-white">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={lang}
+                  initial={reduced ? false : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduced ? undefined : { opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="block"
+                >
+                  {t('hero.line1')}
+                  {' '}
+                  <br />
+                  <span className="text-accent-yellow">{t('hero.line2')}</span>
+                </motion.span>
+              </AnimatePresence>
+            </h1>
+
+            <p className="mt-6 max-w-xl text-lg text-os-muted">{t('hero.sub')}</p>
+            <p className="mt-3 max-w-xl text-sm text-os-text/80">{t('hero.promise')}</p>
+
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <button type="button" onClick={() => scrollTo('#platforms')} className="os-btn-primary min-h-11">
+                {t('hero.ctaPrimary')}
+              </button>
+              <button type="button" onClick={() => scrollTo('#contact')} className="os-btn-secondary min-h-11">
+                {t('hero.ctaSecondary')}
+              </button>
+            </div>
+
+            <div className="mt-12 flex flex-wrap gap-6 border-t border-os-border pt-8 font-mono text-xs text-os-muted">
+              <span>{t('hero.role')}</span>
+              <span>{t('hero.focus')}</span>
+              <span className="text-accent-yellow">{t('hero.studio')}</span>
             </div>
           </motion.div>
 
-          {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-full lg:w-1/2 text-center lg:text-left space-y-4 md:space-y-6"
+            initial={reduced ? false : { opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="relative mx-auto w-full max-w-md lg:max-w-none"
           >
-            <div className="space-y-2">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary-900 tracking-tight">
-                Ahmed Ashraf
-              </h1>
-              {/* Social Media Icons */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="flex gap-4 justify-center lg:justify-start"
-              >
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-gray-600 ${social.color} transform hover:scale-110 transition-all duration-300`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    title={social.name}
-                  >
-                    <social.icon className="w-6 h-6" />
-                  </motion.a>
-                ))}
-              </motion.div>
-            </div>
-
-            <div className="text-lg sm:text-xl md:text-2xl text-primary-600">
-              <TypeAnimation
-                sequence={[
-                  "Data Scientist",
-                  2000,
-                  "ML Engineer",
-                  2000,
-                  "AI Agentic Automation ",
-                  2000,
-                  "Analytics & Automation Lead",
-                  2000,
-                ]}
-                wrapper="span"
-                speed={50}
-                repeat={Infinity}
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-os-border bg-os-surface">
+              <img
+                src="/images/profile.jpg"
+                alt={t('hero.photoAlt')}
+                className="aspect-[4/5] w-full object-cover object-top"
+                width="640"
+                height="800"
               />
-            </div>
-            <p className="text-lg text-secondary-600 mb-8 max-w-2xl">
-              Lifelong Learner in Data Science & Automation, seeking to become a senior computer vision engineer. 
-              Transforming data into actionable insights and building intelligent automation solutions. 
-              With a proven track record of developing innovative AI-driven solutions.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-              <motion.a
-                href="#contact"
-                className="px-8 py-3 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Contact Me
-              </motion.a>
-              <motion.a
-                href="#projects"
-                className="px-8 py-3 bg-white text-primary-600 rounded-full hover:bg-primary-50 transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Projects
-              </motion.a>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-os-bg via-os-bg/50 to-transparent p-5 pt-16">
+                <p className="font-display text-xl font-semibold">{t('brand.name')}</p>
+                <p className="font-mono text-xs uppercase tracking-wider text-accent-yellow">{t('hero.photoRole')}</p>
+              </div>
             </div>
           </motion.div>
         </div>

@@ -1,9 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>https://portfolio.ahmed-n8n.cfd/</loc>
-		<lastmod>2025-11-25</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>1.0</priority>
-	</url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/tinda</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/tinda" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/tinda" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/tinda" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/tinda</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/tinda" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/tinda" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/tinda" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/qube</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/qube" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/qube" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/qube" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/qube</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/qube" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/qube" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/qube" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/metron</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/metron" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/metron" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/metron" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/metron</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/metron" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/metron" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/metron" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/cycle-time</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/cycle-time" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/cycle-time" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/cycle-time" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/cycle-time</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/cycle-time" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/cycle-time" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/cycle-time" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/oee-platform</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/oee-platform" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/oee-platform" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/oee-platform" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/oee-platform</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/oee-platform" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/oee-platform" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/oee-platform" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/project/ai-automation-platform</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/ai-automation-platform" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/ai-automation-platform" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/ai-automation-platform" />
+  </url>
+  <url>
+    <loc>https://portfolio.ahmed-n8n.cfd/ar/project/ai-automation-platform</loc>
+    <lastmod>2026-09-05</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://portfolio.ahmed-n8n.cfd/project/ai-automation-platform" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://portfolio.ahmed-n8n.cfd/ar/project/ai-automation-platform" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://portfolio.ahmed-n8n.cfd/project/ai-automation-platform" />
+  </url>
 </urlset>

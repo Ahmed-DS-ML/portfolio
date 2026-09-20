@@ -28,6 +28,11 @@ export default defineConfig({
     strictPort: true,
     open: true
   },
+  preview: {
+    port: 4179,
+    strictPort: true,
+    host: '127.0.0.1',
+  },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']
   }

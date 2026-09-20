@@ -9,21 +9,46 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
-        display: ['Lexend', ...defaultTheme.fontFamily.sans],
+        sans: ['"IBM Plex Sans"', '"IBM Plex Sans Arabic"', ...defaultTheme.fontFamily.sans],
+        display: ['"Space Grotesk"', '"IBM Plex Sans Arabic"', ...defaultTheme.fontFamily.sans],
+        arabic: ['"IBM Plex Sans Arabic"', '"IBM Plex Sans"', ...defaultTheme.fontFamily.sans],
+        mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
       },
       colors: {
+        os: {
+          bg: '#050505',
+          surface: '#111111',
+          elevated: '#1A1A1A',
+          code: '#0D0D0D',
+          border: '#222222',
+          muted: '#888888',
+          text: '#FFFFFF',
+        },
+        accent: {
+          yellow: '#FFE500',
+          hover: '#E6CE00',
+          // aliases used across components
+          blue: '#FFE500',
+          cyan: '#FFE500',
+          glow: '#FFE500',
+        },
+        syntax: {
+          comment: '#6A9955',
+          keyword: '#C586C0',
+          string: '#CE9178',
+          fn: '#DCDCAA',
+        },
         primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          50: '#fffde6',
+          100: '#fff9b3',
+          200: '#fff480',
+          300: '#ffef4d',
+          400: '#ffe91a',
+          500: '#FFE500',
+          600: '#E6CE00',
+          700: '#b3a100',
+          800: '#807300',
+          900: '#4d4500',
         },
         secondary: {
           50: '#f8fafc',
@@ -31,27 +56,28 @@ export default {
           200: '#e2e8f0',
           300: '#cbd5e1',
           400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
+          500: '#888888',
+          600: '#666666',
+          700: '#333333',
+          800: '#1a1a1a',
+          900: '#050505',
         },
       },
-      spacing: {
-        '18': '4.5rem',
-        '112': '28rem',
-        '128': '32rem',
+      maxWidth: {
+        os: '1280px',
+      },
+      boxShadow: {
+        glow: '0 0 48px rgba(255, 229, 0, 0.22)',
+        'glow-sm': '0 0 24px rgba(255, 229, 0, 0.18)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'slide-down': 'slideDown 0.5s ease-out',
-        'slide-left': 'slideLeft 0.5s ease-out',
-        'slide-right': 'slideRight 0.5s ease-out',
-        'bounce-slow': 'bounce 3s infinite',
-        'pulse-slow': 'pulse 3s infinite',
-        'shimmer': 'shimmer 2s linear infinite',
+        'slide-up': 'slideUp 0.7s ease-out',
+        float: 'float 6s ease-in-out infinite',
+        'float-delayed': 'float 6s ease-in-out 1.5s infinite',
+        marquee: 'marquee 25s linear infinite',
+        pingSoft: 'pingSoft 2s ease-out infinite',
+        blink: 'blink 1s step-end infinite',
       },
       keyframes: {
         fadeIn: {
@@ -59,84 +85,24 @@ export default {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '0%': { transform: 'translateY(30px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
-        slideDown: {
-          '0%': { transform: 'translateY(-20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-12px)' },
         },
-        slideLeft: {
-          '0%': { transform: 'translateX(20px)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
-        slideRight: {
-          '0%': { transform: 'translateX(-20px)', opacity: '0' },
-          '100%': { transform: 'translateX(0)', opacity: '1' },
+        pingSoft: {
+          '0%': { transform: 'scale(1)', opacity: '0.8' },
+          '75%, 100%': { transform: 'scale(2.2)', opacity: '0' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-      },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: '65ch',
-            color: 'var(--tw-prose-body)',
-            '[class~="lead"]': {
-              color: 'var(--tw-prose-lead)',
-            },
-            strong: {
-              color: 'var(--tw-prose-bold)',
-              fontWeight: '600',
-            },
-            'ol[type="A"]': {
-              '--list-counter-style': 'upper-alpha',
-            },
-            'ol[type="a"]': {
-              '--list-counter-style': 'lower-alpha',
-            },
-            'ol[type="A" s]': {
-              '--list-counter-style': 'upper-alpha',
-            },
-            'ol[type="a" s]': {
-              '--list-counter-style': 'lower-alpha',
-            },
-            'ol[type="I"]': {
-              '--list-counter-style': 'upper-roman',
-            },
-            'ol[type="i"]': {
-              '--list-counter-style': 'lower-roman',
-            },
-            'ol[type="I" s]': {
-              '--list-counter-style': 'upper-roman',
-            },
-            'ol[type="i" s]': {
-              '--list-counter-style': 'lower-roman',
-            },
-            'ol[type="1"]': {
-              '--list-counter-style': 'decimal',
-            },
-            'ol > li': {
-              position: 'relative',
-            },
-            'ol > li::before': {
-              content: 'counter(list-item, var(--list-counter-style, decimal)) "."',
-              position: 'absolute',
-              fontWeight: '400',
-              color: 'var(--tw-prose-counters)',
-            },
-            'ul > li': {
-              position: 'relative',
-            },
-            'ul > li::before': {
-              content: '""',
-              position: 'absolute',
-              backgroundColor: 'var(--tw-prose-bullets)',
-              borderRadius: '50%',
-            },
-          },
+        blink: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
         },
       },
       container: {
@@ -146,7 +112,6 @@ export default {
           sm: '2rem',
           lg: '4rem',
           xl: '5rem',
-          '2xl': '6rem',
         },
       },
     },

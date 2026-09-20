@@ -1,222 +1,153 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useI18n } from '../i18n/I18nProvider.jsx';
+import { homeHash, stripLang, withLang } from '../seo/paths.js';
+
+const NAV = [
+  { key: 'work', href: '#platforms' },
+  { key: 'proof', href: '#experience' },
+  { key: 'learning', href: '#focus' },
+  { key: 'contact', href: '#contact' },
+];
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = stripLang(location.pathname) === '/';
+  const { t, lang, setLang, dir, localized } = useI18n();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      setScrolled(offset > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Achievements', href: '#achievements' },
-    { name: 'Contact', href: '#contact' },
-    { name: 'AI Model', href: '/ai-model' },
-  ];
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
-  const socialLinks = [
-    { 
-      name: 'GitHub', 
-      icon: FaGithub, 
-      href: 'https://github.com/Ahmed-DS-ML',
-      hoverColor: 'hover:text-gray-900'
-    },
-    { 
-      name: 'LinkedIn', 
-      icon: FaLinkedin, 
-      href: 'https://www.linkedin.com/in/ahmed-datascince/',
-      hoverColor: 'hover:text-blue-600'
-    },
-    { 
-      name: 'X', 
-      icon: FaXTwitter, 
-      href: 'https://x.com/AhmedAshra31860',
-      hoverColor: 'hover:text-gray-900'
-    },
-    { 
-      name: 'YouTube', 
-      icon: FaYoutube, 
-      href: 'https://www.youtube.com/@AhmedAshraf-f3y',
-      hoverColor: 'hover:text-red-600'
+  const go = (href) => {
+    setOpen(false);
+    if (!isHome) {
+      window.location.href = homeHash(href, lang);
+      return;
     }
-  ];
-
-  const handleNavClick = (href) => {
-    setIsOpen(false);
-    
-    // Handle hash links for smooth scrolling
-    if (href.startsWith('#')) {
-      const element = document.querySelector(href);
-      if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    } else if (href === '/') {
-      // Scroll to top when clicking home on the main page
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+    const el = document.querySelector(href);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 
+  const reduced =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/80 backdrop-blur-md shadow-md' : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex-shrink-0"
-          >
-            <Link 
-              to="/" 
-              className="text-2xl font-display font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent hover:from-primary-500 hover:to-primary-300 transition-all duration-300"
-              onClick={() => handleNavClick('#home')}
-            >
-              Ahmed Ashraf
-            </Link>
-          </motion.div>
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ${
+        scrolled || open
+          ? 'border-os-border bg-os-bg/80 backdrop-blur-xl'
+          : 'border-transparent bg-transparent'
+      }`}
+    >
+      <div className="os-container flex h-16 items-center justify-between md:h-20">
+        <Link to={localized('/')} className="group flex items-baseline gap-1.5" onClick={() => setOpen(false)}>
+          <span className="font-display text-lg font-semibold tracking-tight text-os-text md:text-xl">
+            {t('brand.name')}
+          </span>
+          <span className="hidden font-mono text-xs text-accent-yellow sm:inline">{t('brand.mark')}</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {/* Nav Links */}
-            <div className="flex space-x-6">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="relative px-4 py-2 text-secondary-600 hover:text-primary-600 text-sm font-medium transition-all duration-300 group"
-                  onClick={() => handleNavClick(item.href)}
-                >
-                  <span className="relative z-10">{item.name}</span>
-                  <span className="absolute inset-0 bg-primary-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300 ease-out transform origin-center"></span>
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-                </Link>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div className="flex items-center space-x-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`text-secondary-400 ${social.hoverColor} transition-colors transform hover:scale-110 duration-200`}
-                  aria-label={social.name}
-                >
-                  <social.icon className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
-
-            {/* Resume Button */}
-            <a
-              href="/resume.pdf"
-              download="Ahmed_Ashraf_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            >
-              Resume
-            </a>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+          {NAV.map((item) => (
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-secondary-400 hover:text-secondary-500 hover:bg-secondary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
-              aria-label="Toggle menu"
+              key={item.href}
+              type="button"
+              onClick={() => go(item.href)}
+              className="min-h-11 font-mono text-xs uppercase tracking-wider text-os-muted transition-colors hover:text-os-text"
             >
-              {isOpen ? (
-                <FaTimes className="block h-6 w-6" />
-              ) : (
-                <FaBars className="block h-6 w-6" />
-              )}
+              {t(`nav.${item.key}`)}
             </button>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div
+            className="inline-flex rounded-full border border-os-border bg-os-code p-0.5"
+            role="group"
+            aria-label={t('nav.langSwitch')}
+          >
+            <Link
+              to={withLang(location.pathname, 'en') + location.hash}
+              className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-full px-2.5 font-mono text-[11px] ${
+                lang === 'en' ? 'bg-accent-yellow text-black' : 'text-os-muted'
+              }`}
+              aria-pressed={lang === 'en'}
+              onClick={() => setLang('en')}
+            >
+              {t('nav.langEn')}
+            </Link>
+            <Link
+              to={withLang(location.pathname, 'ar') + location.hash}
+              className={`inline-flex min-h-9 min-w-9 items-center justify-center rounded-full px-2.5 font-mono text-[11px] ${
+                lang === 'ar' ? 'bg-accent-yellow text-black' : 'text-os-muted'
+              }`}
+              aria-pressed={lang === 'ar'}
+              onClick={() => setLang('ar')}
+            >
+              {t('nav.langAr')}
+            </Link>
           </div>
+          <button type="button" onClick={() => go('#contact')} className="os-btn-primary hidden px-4 py-2 text-sm sm:inline-flex">
+            {t('nav.cta')}
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-os-border text-os-text lg:hidden"
+            aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="font-mono text-lg">{open ? '×' : '≡'}</span>
+          </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
-        {isOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-white/95 backdrop-blur-md"
+            initial={reduced ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduced ? undefined : { opacity: 0 }}
+            className="fixed inset-0 top-16 z-40 bg-os-bg/95 backdrop-blur-xl lg:hidden"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="block w-full px-3 py-2 rounded-md text-base font-medium text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors text-left"
-                  onClick={() => handleNavClick(item.href)}
+            <nav className="os-container flex flex-col gap-2 py-8">
+              {NAV.map((item, i) => (
+                <motion.button
+                  key={item.href}
+                  type="button"
+                  initial={reduced ? false : { opacity: 0, x: dir === 'rtl' ? 12 : -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => go(item.href)}
+                  className="min-h-11 rounded-xl border border-os-border bg-os-surface px-4 py-4 text-start font-display text-xl"
                 >
-                  {item.name}
-                </Link>
+                  {t(`nav.${item.key}`)}
+                </motion.button>
               ))}
-              
-              {/* Mobile Social Links */}
-              <div className="flex items-center space-x-4 px-3 py-2">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`text-secondary-400 ${social.hoverColor} transition-colors`}
-                    aria-label={social.name}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-
-              {/* Mobile Resume Button */}
-              <div className="px-3">
-                <a
-                  href="/resume.pdf"
-                  download="Ahmed_Ashraf_Resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 transition-colors"
-                >
-                  Resume
-                </a>
-              </div>
-            </div>
+              <button type="button" onClick={() => go('#contact')} className="os-btn-primary mt-4 min-h-11">
+                {t('nav.cta')}
+              </button>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 

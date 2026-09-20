@@ -9,99 +9,20 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Ahmed Ashraf - Data Science & Machine Learning Portfolio showcasing innovative projects, skills, and achievements">
-  <meta name="keywords" content="data science, machine learning, AI, portfolio, python, deep learning, mathematics, teaching">
+  <meta name="description" content="Ahmed Ashraf is a data scientist and AI engineer who builds AI products that run real operations: TINDA, QUBE, Metron. Cairo and Riyadh. Arabic and English.">
   <meta name="author" content="Ahmed Ashraf">
-  <!-- PWA Support -->
   <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
-  <!-- Meta tags for social sharing -->
-  <link rel="canonical" href="https://portfolio.ahmed-n8n.cfd/">
-  <link rel="image_src" href="https://portfolio.ahmed-n8n.cfd/images/profile.jpg">
-  <meta property="og:title" content="Ahmed Ashraf - Data Science Portfolio">
-  <meta property="og:description" content="Data Scientist & ML Engineer Portfolio showcasing innovative projects, research, and teaching initiatives">
-  <meta property="og:image" content="https://portfolio.ahmed-n8n.cfd/images/profile.jpg">
-  <meta property="og:image:width" content="800">
-  <meta property="og:image:height" content="800">
-  <meta property="og:image:alt" content="Ahmed Ashraf - Data Science Portfolio">
-  <meta property="og:url" content="https://portfolio.ahmed-n8n.cfd">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Ahmed Ashraf Portfolio">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ahmed Ashraf - Data Science Portfolio">
-  <meta name="twitter:description" content="Explore my journey in Data Science, Machine Learning, and Mathematics Education">
-  <meta name="twitter:image" content="https://portfolio.ahmed-n8n.cfd/images/profile.jpg">
-  
-  <!-- WhatsApp and other social media -->
-  <meta property="og:image:secure_url" content="https://portfolio.ahmed-n8n.cfd/images/profile.jpg">
-  <meta name="theme-color" content="#0088cc">
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <title>Ahmed Ashraf - Data Science Portfolio</title>
-  <!-- JSON-LD: Person + WebSite with ImageObject -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://portfolio.ahmed-n8n.cfd/#person",
-        "name": "Ahmed Ashraf",
-        "url": "https://portfolio.ahmed-n8n.cfd/",
-        "jobTitle": "Data Scientist",
-        "description": "Ahmed Ashraf — Data Scientist and Machine Learning Engineer. Explore my projects, research and professional work.",
-        "image": {
-          "@type": "ImageObject",
-          "url": "https://portfolio.ahmed-n8n.cfd/images/profile.jpg",
-          "width": 800,
-          "height": 800,
-          "caption": "Ahmed Ashraf"
-        },
-        "sameAs": [
-          "https://www.linkedin.com/in/ahmed-datascince/",
-          "https://github.com/Ahmed-DS-ML",
-          "https://www.kaggle.com/engahmedashraf"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://portfolio.ahmed-n8n.cfd/#website",
-        "url": "https://portfolio.ahmed-n8n.cfd/",
-        "name": "Ahmed Ashraf Portfolio",
-        "publisher": { "@id": "https://portfolio.ahmed-n8n.cfd/#person" },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://portfolio.ahmed-n8n.cfd/?s={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }
-    ]
-  }
-  </script>
+  <meta name="theme-color" content="#050505">
+  <title>Ahmed Ashraf — AI Product Engineer | TINDA · QUBE · Metron</title>
 </head>
-<body class="font-inter antialiased">
+<body class="bg-os-bg text-os-text antialiased">
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
   <script>
-    // Add loaded class to body when page is ready
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-    });
-    // Register service worker
-    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => document.body.classList.add('loaded'));
+    if ('serviceWorker' in navigator && !navigator.webdriver) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful:', registration.scope);
-          })
-          .catch(error => {
-            console.log('ServiceWorker registration failed:', error);
-          });
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
       });
     }
   </script>

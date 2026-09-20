@@ -1,0 +1,32 @@
+# Ahmed Ashraf — Data Scientist & AI Engineer
+
+> Builds AI products that run real operations: TINDA, QUBE, Metron. Arabic and English. Cairo, Egypt · Riyadh / Remote.
+
+Ahmed Ashraf is a data scientist and AI engineer at Deep Blue Startup Studios. He ships agentic systems, industrial AI, and product platforms — not demos.
+
+## Key facts
+- Role: Data Scientist & AI Engineer
+- Studio: Deep Blue Startup Studios (Riyadh, remote)
+- Location: Cairo, Egypt
+- Languages: Arabic, English
+- Phone: +20 1062798081
+- Email: ahmed.datascince@gmail.com
+
+## Products
+- [TINDA — AI automotive platform](https://portfolio.ahmed-n8n.cfd/project/tinda): Saudi vehicle diagnosis → parts → checkout. Live: https://app.tinda.sa/
+- [QUBE — digital commerce product](https://portfolio.ahmed-n8n.cfd/project/qube): discovery → conversion UX and architecture
+- [Metron — industrial AI OS](https://portfolio.ahmed-n8n.cfd/project/metron): live OEE, downtime ownership, recommend → approve → act
+
+## Arabic
+- [Arabic home](https://portfolio.ahmed-n8n.cfd/ar)
+- [تيندا](https://portfolio.ahmed-n8n.cfd/ar/project/tinda)
+- [كيوب](https://portfolio.ahmed-n8n.cfd/ar/project/qube)
+- [ميترون](https://portfolio.ahmed-n8n.cfd/ar/project/metron)
+
+## Elsewhere
+- LinkedIn: https://www.linkedin.com/in/ahmed-datascince/
+- GitHub: https://github.com/Ahmed-DS-ML
+- X: https://x.com/AhmedAshra31860
+- Kaggle: https://www.kaggle.com/engahmedashraf
+
+Last updated: 2026-09-05

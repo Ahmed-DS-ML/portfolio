@@ -1,37 +1,34 @@
-# Ahmed Ashraf - Data Science Portfolio
+# Ahmed Ashraf — Industrial AI Portfolio
 
-Welcome to my professional portfolio website! This site showcases my work as a Data Scientist and ML Engineer.
+Dark Industrial AI OS portfolio for **Ahmed Ashraf** (*The Agentic Architect*).
 
-## Technologies Used
-- React
-- Vite
+## Stack
+- React + Vite
 - Tailwind CSS
 - Framer Motion
-- React Router
+- Self-hosted fonts (Inter, Space Grotesk, JetBrains Mono via `@fontsource`)
 
-## Features
-- Responsive design
-- Interactive UI components
-- Project showcase
-- Skills and experience display
-- Contact information
+## Local development
+```bash
+npm install
+npm run dev
+```
+Open http://localhost:573
 
-## Local Development
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-4. Open http://localhost:9090 to view it in your browser
+## Verify before deploy
+```bash
+npm run build
+npm run preview
+```
+Then approve → Netlify (`netlify.toml`: `build` → `dist`).
 
-## Deployment
-This site is deployed using Netlify with continuous deployment from the main branch.
+## Brand sources
+- `01_BRAND_BIBLE.md`
+- `02_DESIGN_SYSTEM.md`
+- `03_CONTENT_GUIDE.md`
+- `Personal Brand & Portfolio Design Bible.md`
 
 ## Contact
 - Email: ahmed.datascince@gmail.com
 - LinkedIn: https://www.linkedin.com/in/ahmed-datascince/
-- GitHub: https://github.com/EngAhmedDevloper
+- GitHub: https://github.com/Ahmed-DS-ML
