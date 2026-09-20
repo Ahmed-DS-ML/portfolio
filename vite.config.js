@@ -32,6 +32,7 @@ export default defineConfig({
     port: 4179,
     strictPort: true,
     host: '127.0.0.1',
+    open: false,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'framer-motion']

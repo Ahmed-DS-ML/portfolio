@@ -24,14 +24,38 @@ async function waitForServer(url, tries = 50) {
 }
 
 function startPreview() {
-  const child = spawn('npx', ['vite', 'preview', '--host', '127.0.0.1', '--port', String(PORT), '--strictPort'], {
-    cwd: root,
-    stdio: 'pipe',
-    shell: true,
-  });
+  const viteBin = join(root, 'node_modules/vite/bin/vite.js');
+  const child = spawn(
+    process.execPath,
+    [viteBin, 'preview', '--host', '127.0.0.1', '--port', String(PORT), '--strictPort'],
+    {
+      cwd: root,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: process.platform !== 'win32',
+    },
+  );
   child.stdout?.on('data', (buf) => process.stdout.write(buf));
   child.stderr?.on('data', (buf) => process.stderr.write(buf));
   return child;
+}
+
+function stopPreview(child) {
+  if (!child?.pid) return;
+  child.stdout?.destroy();
+  child.stderr?.destroy();
+  if (process.platform === 'win32') {
+    spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { stdio: 'ignore' });
+    return;
+  }
+  try {
+    process.kill(-child.pid, 'SIGKILL');
+  } catch {
+    try {
+      child.kill('SIGKILL');
+    } catch {
+      /* ignore */
+    }
+  }
 }
 
 const routes = prerenderRoutes();
@@ -76,9 +100,6 @@ try {
 
   console.log(`Wrote ${snapshots.length} prerendered routes`);
 } finally {
-  if (process.platform === 'win32' && preview.pid) {
-    spawn('taskkill', ['/pid', String(preview.pid), '/T', '/F'], { shell: true, stdio: 'ignore' });
-  } else {
-    preview.kill('SIGTERM');
-  }
+  stopPreview(preview);
 }
+process.exit(process.exitCode ?? 0);
