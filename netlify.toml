@@ -17,3 +17,8 @@
 [dev]
   command = "npm run dev"
   framework = "vite"
+
+# UI-enabled @netlify/plugin-emails emits a CJS function that cannot load
+# because this repo is "type": "module". The portfolio does not send email.
+[[plugins]]
+  package = "./plugins/skip-netlify-emails"
